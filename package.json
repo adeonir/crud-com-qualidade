@@ -1,0 +1,10 @@
+{
+  "name": "crud",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch ./core/index.js"
+  }
+}
