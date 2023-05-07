@@ -23,8 +23,12 @@ function create(content: string): string {
   return content;
 }
 
-function read(): string {
-  return fs.readFileSync(DB_PATH).toString();
+function read(): Todo[] {
+  const string = fs.readFileSync(DB_PATH).toString();
+  const todos = JSON.parse(string || "{}").todos as Todo[];
+
+  if (!todos) return [];
+  return todos;
 }
 
 // Simulation
