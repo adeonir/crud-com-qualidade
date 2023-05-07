@@ -3,8 +3,10 @@ import crypto from "crypto";
 
 const DB_PATH = "./data/db.json";
 
+type UUID = string;
+
 type Todo = {
-  id: string
+  id: UUID;
   date: string;
   content: string;
   done: boolean;
@@ -35,7 +37,7 @@ function read(): Todo[] {
   return todos;
 }
 
-function updateById(id: string, partial: Partial<Todo>): Todo {
+function updateById(id: UUID, partial: Partial<Todo>): Todo {
   let updated
 
   const todos = read();
@@ -53,7 +55,7 @@ function updateById(id: string, partial: Partial<Todo>): Todo {
   return updated;
 }
 
-function deleteById(id: string): void {
+function deleteById(id: UUID): void {
   const todos = read();
   const filtered = todos.filter(todo => todo.id !== id);
   fs.writeFileSync(DB_PATH, JSON.stringify({filtered}, null, 2));
