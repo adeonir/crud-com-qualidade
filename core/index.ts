@@ -52,10 +52,10 @@ function updateById(id: UUID, partial: Partial<Todo>): Todo {
   return updated;
 }
 
-function deleteById(id: UUID): void {
+function deleteById(id: UUID) {
   const todos = read();
   const filtered = todos.filter(todo => todo.id !== id);
-  fs.writeFileSync(DB_PATH, JSON.stringify({filtered}, null, 2));
+  fs.writeFileSync(DB_PATH, JSON.stringify({todos: filtered}, null, 2));
 }
 
 function cleanDb(): void {
