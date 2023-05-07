@@ -2,13 +2,20 @@ import fs from "fs";
 
 const DB_PATH = "./data/db.json";
 
+type Todo = {
+  date: string;
+  content: string;
+  done: boolean;
+}
+
 function create(content: string): string {
-  const todo = {
-    content,
+  const todo: Todo = {
     date: new Date().toISOString(),
+    content,
+    done: false
   }
 
-  const todos = [
+  const todos: Todo[] = [
     todo
   ]
 
