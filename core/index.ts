@@ -1,8 +1,8 @@
-const fs = require("fs");
+import fs from "fs";
 
 const DB_PATH = "./data/db";
 
-function create(content) {
+function create(content: string): string {
   fs.writeFileSync(DB_PATH, content);
   return content;
 }
