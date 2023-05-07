@@ -7,5 +7,10 @@ function create(content: string): string {
   return content;
 }
 
+function read(): string {
+  return fs.readFileSync(DB_PATH).toString();
+}
+
 // Simulation
 console.log(create("Hello World"));
+console.log(read());
