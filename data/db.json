@@ -1,20 +1,14 @@
 {
-  "todos": [
+  "filtered": [
     {
-      "id": "5b549caf-4ec4-4226-92ba-610dced2a83c",
-      "date": "2023-05-07T13:08:18.108Z",
-      "content": "Hello World",
-      "done": false
-    },
-    {
-      "id": "486e6dfe-ab82-46b0-a9a2-f9cedf379f13",
-      "date": "2023-05-07T13:08:18.108Z",
+      "id": "e5b64baf-c929-4d78-8998-eb42783e168b",
+      "date": "2023-05-07T13:27:59.647Z",
       "content": "Hello World Again",
       "done": false
     },
     {
-      "id": "83f645fb-24e7-42b2-8825-ef6c7b630dc9",
-      "date": "2023-05-07T13:08:18.108Z",
+      "id": "89cc8fa2-f158-4b39-be94-13959d6f9bf5",
+      "date": "2023-05-07T13:27:59.648Z",
       "content": "Hello World Once More",
       "done": true
     }

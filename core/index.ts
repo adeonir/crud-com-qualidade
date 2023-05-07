@@ -53,11 +53,21 @@ function updateById(id: string, partial: Partial<Todo>): Todo {
   return updated;
 }
 
+function deleteById(id: string): void {
+  const todos = read();
+  const filtered = todos.filter(todo => todo.id !== id);
+  fs.writeFileSync(DB_PATH, JSON.stringify({filtered}, null, 2));
+}
+
 function cleanDb(): void {
   fs.writeFileSync(DB_PATH, '');
 }
 
 // Simulation
 cleanDb()
+const first = create("Hello World");
+const second = create("Hello World Again");
+const third = create("Hello World Once More");
 updateById(third.id, { done: true });
+deleteById(first.id);
 console.log(read());
