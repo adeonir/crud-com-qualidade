@@ -35,7 +35,7 @@ function read(): Todo[] {
   return todos;
 }
 
-function update(id: string, partial: Partial<Todo>): Todo {
+function updateById(id: string, partial: Partial<Todo>): Todo {
   let updated
 
   const todos = read();
@@ -59,8 +59,5 @@ function cleanDb(): void {
 
 // Simulation
 cleanDb()
-console.log(create("Hello World"));
-console.log(create("Hello World Again"));
-const todo = create("Hello World Once More");
-update(todo.id, { done: true });
+updateById(third.id, { done: true });
 console.log(read());
