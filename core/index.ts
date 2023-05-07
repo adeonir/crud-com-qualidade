@@ -38,20 +38,17 @@ function read(): Todo[] {
 }
 
 function updateById(id: UUID, partial: Partial<Todo>): Todo {
-  let updated
-
   const todos = read();
-  todos.forEach(current => {
-    if (current.id === id) {
-      updated = Object.assign(current, partial);
-    }
-  })
+  const toUpdate = todos.find(todo => todo.id === id);
 
-  if (!updated) {
+  if (!toUpdate) {
     throw new Error("Todo not found");
   }
 
-  fs.writeFileSync(DB_PATH, JSON.stringify({todos}, null, 2));
+  const updated = { ...toUpdate, ...partial };
+  const updatedTodos = todos.map(todo => todo.id === id ? updated : todo);
+
+  fs.writeFileSync(DB_PATH, JSON.stringify({todos: updatedTodos}, null, 2));
   return updated;
 }
 
