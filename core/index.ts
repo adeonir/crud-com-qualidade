@@ -16,6 +16,7 @@ function create(content: string): string {
   }
 
   const todos: Todo[] = [
+    ...read(),
     todo
   ]
 
@@ -31,6 +32,12 @@ function read(): Todo[] {
   return todos;
 }
 
+function cleanDb(): void {
+  fs.writeFileSync(DB_PATH, '');
+}
+
 // Simulation
+cleanDb()
 console.log(create("Hello World"));
+console.log(create("Hello World Again"));
 console.log(read());
