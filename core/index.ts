@@ -1,9 +1,18 @@
 import fs from "fs";
 
-const DB_PATH = "./data/db";
+const DB_PATH = "./data/db.json";
 
 function create(content: string): string {
-  fs.writeFileSync(DB_PATH, content);
+  const todo = {
+    content,
+    date: new Date().toISOString(),
+  }
+
+  const todos = [
+    todo
+  ]
+
+  fs.writeFileSync(DB_PATH, JSON.stringify({todos}, null, 2));
   return content;
 }
 
