@@ -5,8 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./core/index.ts",
-    "dev": "nodemon --ext ts,tsx --exec 'pnpm start'"
+    "crud:start": "ts-node ./core/index.ts",
+    "crud:dev": "nodemon --ext ts,tsx --exec 'pnpm crud:start'"
   },
   "dependencies": {
     "ts-node": "10.9.1",
