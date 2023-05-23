@@ -1,64 +1,64 @@
-const basePadding = "5%";
-const breakpoint = "850px";
+const basePadding = '5%'
+const breakpoint = '850px'
 
 const pallete = {
   indigo: {
-    x050: "#E0E8F9",
-    x100: "#BED0F7",
-    x200: "#98AEEB",
-    x300: "#7B93DB",
-    x400: "#647ACB",
-    x500: "#4C63B6",
-    x600: "#4055A8",
-    x700: "#35469C",
-    x800: "#2D3A8C",
-    x900: "#19216C",
+    x050: '#E0E8F9',
+    x100: '#BED0F7',
+    x200: '#98AEEB',
+    x300: '#7B93DB',
+    x400: '#647ACB',
+    x500: '#4C63B6',
+    x600: '#4055A8',
+    x700: '#35469C',
+    x800: '#2D3A8C',
+    x900: '#19216C',
   },
   devsoutinho: {
-    x050: "#FFE8D9",
-    x100: "#FFD0B5",
-    x200: "#FFB088",
-    x300: "#FF9466",
-    x400: "#F9703E",
-    x500: "#F35627",
-    x600: "#DE3A11",
-    x700: "#C52707",
-    x800: "#AD1D07",
-    x900: "#841003",
+    x050: '#FFE8D9',
+    x100: '#FFD0B5',
+    x200: '#FFB088',
+    x300: '#FF9466',
+    x400: '#F9703E',
+    x500: '#F35627',
+    x600: '#DE3A11',
+    x700: '#C52707',
+    x800: '#AD1D07',
+    x900: '#841003',
   },
   red: {
-    x050: "#FFE3E3",
-    x100: "#FFBDBD",
-    x200: "#FF9B9B",
-    x300: "#F86A6A",
-    x400: "#EF4E4E",
-    x500: "#E12D39",
-    x600: "#CF1124",
-    x700: "#AB091E",
-    x800: "#8A041A",
-    x900: "#610316",
+    x050: '#FFE3E3',
+    x100: '#FFBDBD',
+    x200: '#FF9B9B',
+    x300: '#F86A6A',
+    x400: '#EF4E4E',
+    x500: '#E12D39',
+    x600: '#CF1124',
+    x700: '#AB091E',
+    x800: '#8A041A',
+    x900: '#610316',
   },
   coolGrey: {
-    x050: "#F5F7FA",
-    x100: "#E4E7EB",
-    x200: "#CBD2D9",
-    x300: "#9AA5B1",
-    x400: "#7B8794",
-    x500: "#616E7C",
-    x600: "#52606D",
-    x700: "#3E4C59",
-    x800: "#323F4B",
-    x900: "#1F2933",
+    x050: '#F5F7FA',
+    x100: '#E4E7EB',
+    x200: '#CBD2D9',
+    x300: '#9AA5B1',
+    x400: '#7B8794',
+    x500: '#616E7C',
+    x600: '#52606D',
+    x700: '#3E4C59',
+    x800: '#323F4B',
+    x900: '#1F2933',
   },
-};
-type ThemeName = keyof typeof pallete;
+}
+type ThemeName = keyof typeof pallete
 
 export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
   const theme = {
-    primary: pallete[themeName || "indigo"],
+    primary: pallete[themeName || 'indigo'],
     negative: pallete.red,
     neutral: pallete.coolGrey,
-  };
+  }
 
   return (
     <style jsx global>
@@ -70,27 +70,21 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           ${Object.keys(theme.neutral)
             .map(
               (key) => `
-            --color-primary-${key}: ${
-                theme.primary[key as keyof typeof theme.primary]
-              };`
+            --color-primary-${key}: ${theme.primary[key as keyof typeof theme.primary]};`,
             )
-            .join("")}
+            .join('')}
           ${Object.keys(theme.neutral)
             .map(
               (key) => `
-            --color-neutral-${key}: ${
-                theme.neutral[key as keyof typeof theme.neutral]
-              };`
+            --color-neutral-${key}: ${theme.neutral[key as keyof typeof theme.neutral]};`,
             )
-            .join("")}
+            .join('')}
             ${Object.keys(theme.negative)
             .map(
               (key) => `
-              --color-negative-${key}: ${
-                theme.negative[key as keyof typeof theme.negative]
-              };`
+              --color-negative-${key}: ${theme.negative[key as keyof typeof theme.negative]};`,
             )
-            .join("")}
+            .join('')}
         }
         * {
           margin: 0;
@@ -106,7 +100,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
         input {
           --outline: currentColor;
         }
-        input[type="text"]:focus-visible,
+        input[type='text']:focus-visible,
         button:focus-visible {
           outline-offset: 2px;
           outline: 2px solid var(--outline);
@@ -114,12 +108,12 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
         button:disabled {
           cursor: not-allowed;
         }
-        input[type="checkbox"] {
+        input[type='checkbox'] {
           accent-color: var(--color-primary-x500);
           border-radius: 4px;
           --outline: var(--color-primary-x500);
         }
-        input[type="checkbox"]:focus-visible {
+        input[type='checkbox']:focus-visible {
           outline-offset: 2px;
           outline: 2px solid var(--outline);
         }
@@ -155,10 +149,8 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           }
         }
         body {
-          font-family: ui-sans-serif, system-ui, -apple-system,
-            BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial,
-            Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-            Segoe UI Symbol, Noto Color Emoji;
+          font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+            Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
         }
         // [Header Area]
         header {
@@ -178,7 +170,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           align-items: center;
         }
         header:before {
-          content: "";
+          content: '';
           background-color: rgba(0, 0, 0, 0.5);
           position: absolute;
           z-index: 1;
@@ -208,10 +200,8 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           margin-top: 16px;
           display: flex;
           align-items: stretch;
-          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
-            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-            rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
         }
         header form input {
           --outline: var(--color-neutral-x100);
@@ -264,7 +254,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           font-size: 18px;
         }
         section form::before {
-          content: "🔎";
+          content: '🔎';
           width: var(--iconSize);
           height: var(--iconSize);
           position: absolute;
@@ -282,10 +272,8 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           padding: 16px 32px;
           padding-left: calc(16px + 2px + var(--iconSize));
           width: 100%;
-          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
-            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-            rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
         }
         // == [Table Reset]
         table {
@@ -307,10 +295,8 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           margin: 0 auto;
           max-width: 600px;
           margin-top: 16px;
-          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
-            rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
-            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-            rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+          box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
         }
         thead {
           background-color: var(--color-neutral-x050);
@@ -340,21 +326,21 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           border-radius: 8px;
           padding: 8px 12px;
         }
-        button[data-type="delete"] {
+        button[data-type='delete'] {
           background-color: transparent;
           color: var(--color-negative-x500);
         }
-        button[data-type="delete"]:hover,
-        button[data-type="delete"]:focus {
+        button[data-type='delete']:hover,
+        button[data-type='delete']:focus {
           background-color: var(--color-negative-x050);
         }
-        button[data-type="load-more"] {
+        button[data-type='load-more'] {
           font-weight: bold;
           color: var(--color-primary-x500);
           background-color: var(--color-primary-x050);
         }
-        button[data-type="load-more"]:hover,
-        button[data-type="load-more"]:focus {
+        button[data-type='load-more']:hover,
+        button[data-type='load-more']:focus {
           background-color: var(--color-primary-x100);
         }
         // [Common Stuff]
@@ -365,8 +351,7 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           white-space: nowrap; /* Keeps the content on a single line */
           margin: 0 auto; /* Gives that scrolling effect as the typing happens */
           letter-spacing: 0.05em; /* Adjust as needed */
-          animation: typing 3s steps(40, end),
-            blink-caret 0.75s step-end infinite;
+          animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
         }
         /* The typing effect */
         @keyframes typing {
@@ -389,5 +374,5 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
         }
       `}
     </style>
-  );
+  )
 }
