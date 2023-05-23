@@ -10,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src --ext ts,tsx"
+    "lint": "eslint src --ext ts,tsx",
+    "prepare": "is-ci || husky install"
   },
   "dependencies": {
     "next": "13.4.3",
@@ -31,6 +32,9 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
+    "husky": "8.0.3",
+    "is-ci": "3.0.1",
+    "lint-staged": "13.2.2",
     "nodemon": "2.0.22",
     "prettier": "2.8.8"
   }
