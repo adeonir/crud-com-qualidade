@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from 'fs'
 import crypto from 'crypto'
 
@@ -13,7 +12,7 @@ type Todo = {
   done: boolean
 }
 
-function create(content: string): Todo {
+export function create(content: string): Todo {
   const todo: Todo = {
     id: crypto.randomUUID(),
     date: new Date().toISOString(),
@@ -27,7 +26,7 @@ function create(content: string): Todo {
   return todo
 }
 
-function read(): Todo[] {
+export function read(): Todo[] {
   const string = fs.readFileSync(DB_PATH).toString()
   const todos = JSON.parse(string || '{}').todos as Todo[]
 
@@ -35,7 +34,7 @@ function read(): Todo[] {
   return todos
 }
 
-function updateById(id: UUID, partial: Partial<Todo>): Todo {
+export function updateById(id: UUID, partial: Partial<Todo>): Todo {
   const todos = read()
   const toUpdate = todos.find((todo) => todo.id === id)
 
@@ -50,20 +49,20 @@ function updateById(id: UUID, partial: Partial<Todo>): Todo {
   return updated
 }
 
-function deleteById(id: UUID) {
+export function deleteById(id: UUID) {
   const todos = read()
   const filtered = todos.filter((todo) => todo.id !== id)
   fs.writeFileSync(DB_PATH, JSON.stringify({ todos: filtered }, null, 2))
 }
 
-function cleanDb(): void {
+export function cleanDb(): void {
   fs.writeFileSync(DB_PATH, '')
 }
 
 // Simulation
-cleanDb()
-const first = create('Hello World')
-const second = create('Hello World Again')
-updateById(first.id, { done: true })
-deleteById(second.id)
-console.log(read())
+// cleanDb()
+// const first = create('Hello World')
+// const second = create('Hello World Again')
+// updateById(first.id, { done: true })
+// deleteById(second.id)
+// console.log(read())
