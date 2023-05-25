@@ -1,5 +1,4 @@
 import fs from 'fs'
-import crypto from 'crypto'
 
 const DB_PATH = './data/db.json'
 
