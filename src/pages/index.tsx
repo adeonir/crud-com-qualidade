@@ -1,23 +1,19 @@
-import type { Todo } from '~/crud'
+import { useEffect, useState } from 'react'
+
 import { GlobalStyles } from '~/styles/global-styles'
+
+import type { Todo } from '~/crud'
+import { todosController } from '~/controllers/front/todos'
+
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
 
-const todos: Todo[] = [
-  {
-    id: 'a44de2ae-5df4-4e77-aa30-782a9dabf253',
-    date: '2023-05-07T13:53:21.779Z',
-    content: 'Hello World Again',
-    done: false,
-  },
-  {
-    id: 'c986833a-0151-47ca-a996-b12234483709',
-    date: '2023-05-07T13:53:21.779Z',
-    content: 'Hello World Once More',
-    done: true,
-  },
-]
-
 export default function Home() {
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  useEffect(() => {
+    todosController.get().then(({ todos }) => setTodos(todos))
+  }, [])
+
   return (
     <>
       <GlobalStyles themeName="devsoutinho" />

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+
 import { read } from '~/crud'
 
 const get = (_req: NextApiRequest, res: NextApiResponse) => {
@@ -6,6 +7,6 @@ const get = (_req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json({ todos })
 }
 
-export const todoController = {
+export const todosController = {
   get,
 }
