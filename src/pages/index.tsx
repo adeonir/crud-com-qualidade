@@ -1,5 +1,21 @@
+import type { Todo } from '~/crud'
 import { GlobalStyles } from '~/styles/global-styles'
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
+
+const todos: Todo[] = [
+  {
+    id: 'a44de2ae-5df4-4e77-aa30-782a9dabf253',
+    date: '2023-05-07T13:53:21.779Z',
+    content: 'Hello World Again',
+    done: false,
+  },
+  {
+    id: 'c986833a-0151-47ca-a996-b12234483709',
+    date: '2023-05-07T13:53:21.779Z',
+    content: 'Hello World Once More',
+    done: true,
+  },
+]
 
 export default function Home() {
   return (
@@ -40,34 +56,32 @@ export default function Home() {
             </thead>
 
             <tbody>
-              <tr>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>d4f26</td>
-                <td>
-                  Conteúdo de uma TODO Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque vero facilis
-                  obcaecati, autem aliquid eius! Consequatur eaque doloribus laudantium soluta optio odit, provident, ab
-                  voluptates doloremque voluptas recusandae aspernatur aperiam.
-                </td>
-                <td align="right">
-                  <button data-type="delete">Apagar</button>
-                </td>
-              </tr>
+              {todos.map((todo) => (
+                <tr key={todo.id}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{todo.id.slice(0, 5)}</td>
+                  <td>{todo.content}</td>
+                  <td align="right">
+                    <button data-type="delete">Apagar</button>
+                  </td>
+                </tr>
+              ))}
 
-              <tr>
+              {/* <tr>
                 <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
                   Carregando...
                 </td>
-              </tr>
+              </tr> */}
 
-              <tr>
+              {/* <tr>
                 <td colSpan={4} align="center">
                   Nenhum item encontrado
                 </td>
-              </tr>
+              </tr> */}
 
-              <tr>
+              {/* <tr>
                 <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
                   <button data-type="load-more">
                     Carregar mais{' '}
@@ -82,7 +96,7 @@ export default function Home() {
                     </span>
                   </button>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </section>
