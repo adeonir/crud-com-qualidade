@@ -4,7 +4,7 @@ const DB_PATH = './data/db.json'
 
 type UUID = string
 
-export type Todo = {
+type Todo = {
   id: UUID
   date: string
   content: string

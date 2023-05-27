@@ -7,6 +7,11 @@ import { todosController } from '~/controllers/front/todos'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
 
+type Todo = {
+  id: string
+  content: string
+}
+
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
 
