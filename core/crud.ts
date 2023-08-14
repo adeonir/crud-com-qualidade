@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-const DB_PATH = './data/db.json'
+const DB_PATH = './core/db'
 
 type UUID = string
 

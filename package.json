@@ -1,12 +1,12 @@
 {
   "name": "crud",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projeto do curso Criando um CRUD de Qualidade",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "crud:start": "ts-node core/crud/index.ts",
-    "crud:dev": "nodemon --ext ts --exec 'pnpm crud:start'",
+    "crud:start": "ts-node --project tsconfig.json core/crud.ts",
+    "crud:dev": "nodemon --ext ts,tsx --exec 'pnpm crud:start'",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
