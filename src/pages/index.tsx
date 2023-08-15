@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
 
@@ -14,9 +14,15 @@ type Todo = {
 export default function Home() {
   const [page, setPage] = useState(1)
   const [todos, setTodos] = useState<Todo[]>([])
+  const [pages, setPages] = useState(0)
+
+  const loadMore = useMemo(() => pages > page, [pages, page])
 
   useEffect(() => {
-    todosController.get({ page }).then(({ todos }) => setTodos(todos))
+    todosController.get({ page }).then(({ todos, pages }) => {
+      setTodos((prev) => [...prev, ...todos])
+      setPages(pages)
+    })
   }, [page])
 
   return (
@@ -82,22 +88,24 @@ export default function Home() {
                 </td>
               </tr> */}
 
-              <tr>
-                <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
-                  <button data-type="load-more" onClick={() => setPage(page + 1)}>
-                    Página {page}, Carregar mais{' '}
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        marginLeft: '4px',
-                        fontSize: '1.2em',
-                      }}
-                    >
-                      ↓
-                    </span>
-                  </button>
-                </td>
-              </tr>
+              {loadMore && (
+                <tr>
+                  <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
+                    <button data-type="load-more" onClick={() => setPage(page + 1)}>
+                      Página {page}, Carregar mais{' '}
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          marginLeft: '4px',
+                          fontSize: '1.2em',
+                        }}
+                      >
+                        ↓
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </section>

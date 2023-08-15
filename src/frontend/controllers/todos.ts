@@ -1,11 +1,11 @@
 import { todosRepository } from '~/frontend/repositories/todos'
 
 type GetParams = {
-  page?: number
+  page: number
 }
 
-const get = async ({ page }: GetParams = {}) => {
-  return todosRepository.get({ page: page || 1, limit: 2 })
+const get = async ({ page }: GetParams) => {
+  return todosRepository.get({ page: page, limit: 2 })
 }
 
 export const todosController = {
