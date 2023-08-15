@@ -1,7 +1,11 @@
-const get = async () => {
-  return fetch('/api/todos').then(async (res) => {
-    return await res.json()
-  })
+import { todosRepository } from '~/repository/front/todos'
+
+type GetParams = {
+  page?: number
+}
+
+const get = async ({ page }: GetParams = {}) => {
+  return todosRepository.get({ page: page || 1, limit: 10 })
 }
 
 export const todosController = {
