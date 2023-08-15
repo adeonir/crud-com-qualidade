@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { todosController } from '~/controllers/server/todos'
+import { todosController } from '~/backend/controllers/todos'
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {

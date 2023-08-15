@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
 
-import { todosController } from '~/controllers/front/todos'
+import { todosController } from '~/frontend/controllers/todos'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
 
