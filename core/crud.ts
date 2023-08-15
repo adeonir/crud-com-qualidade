@@ -26,8 +26,8 @@ export function create(content: string): Todo {
 }
 
 export function read(): Todo[] {
-  const string = fs.readFileSync(DB_PATH).toString()
-  const todos = JSON.parse(string || '{}').todos as Todo[]
+  const db = fs.readFileSync(DB_PATH).toString()
+  const todos = JSON.parse(db || '{}').todos as Todo[]
 
   if (!todos) return []
   return todos
@@ -62,6 +62,7 @@ export function cleanDb(): void {
 // cleanDb()
 // const first = create('Hello World')
 // const second = create('Hello World Again')
+// console.log(read())
 // updateById(first.id, { done: true })
 // deleteById(second.id)
 // console.log(read())
