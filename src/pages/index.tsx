@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
 
-import type { Todo } from '~/crud'
 import { todosController } from '~/controllers/front/todos'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
@@ -13,11 +12,12 @@ type Todo = {
 }
 
 export default function Home() {
+  const [page, setPage] = useState(1)
   const [todos, setTodos] = useState<Todo[]>([])
 
   useEffect(() => {
-    todosController.get().then(({ todos }) => setTodos(todos))
-  }, [])
+    todosController.get({ page }).then(({ todos }) => setTodos(todos))
+  }, [page])
 
   return (
     <>
@@ -82,10 +82,10 @@ export default function Home() {
                 </td>
               </tr> */}
 
-              {/* <tr>
+              <tr>
                 <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
-                  <button data-type="load-more">
-                    Carregar mais{' '}
+                  <button data-type="load-more" onClick={() => setPage(page + 1)}>
+                    Página {page}, Carregar mais{' '}
                     <span
                       style={{
                         display: 'inline-block',
@@ -97,7 +97,7 @@ export default function Home() {
                     </span>
                   </button>
                 </td>
-              </tr> */}
+              </tr>
             </tbody>
           </table>
         </section>
