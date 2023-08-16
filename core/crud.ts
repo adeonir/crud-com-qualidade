@@ -6,8 +6,8 @@ type UUID = string
 
 type Todo = {
   id: UUID
-  date: string
   content: string
+  date: string
   done: boolean
 }
 

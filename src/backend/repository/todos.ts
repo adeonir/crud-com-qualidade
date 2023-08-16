@@ -13,8 +13,8 @@ type GetResponse = {
 
 type Todo = {
   id: string
-  date: string
   content: string
+  date: string
   done: boolean
 }
 
