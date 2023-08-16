@@ -16,9 +16,18 @@ type Todo = {
   done: boolean
 }
 
-const parseResponse = (response: unknown): { todos: Todo[] } => {
-  if (response !== null && typeof response === 'object' && 'todos' in response && Array.isArray(response.todos)) {
+const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
+  if (
+    response !== null &&
+    typeof response === 'object' &&
+    'todos' in response &&
+    'total' in response &&
+    'pages' in response &&
+    Array.isArray(response.todos)
+  ) {
     return {
+      total: Number(response.total),
+      pages: Number(response.pages),
       todos: response.todos.map((todo: unknown) => {
         if (todo === null && typeof todo !== 'object') {
           throw new Error('Invalid response from api')
@@ -41,20 +50,17 @@ const parseResponse = (response: unknown): { todos: Todo[] } => {
     }
   }
 
-  return { todos: [] }
+  return { total: 0, pages: 1, todos: [] }
 }
 
 const get = async ({ page, limit }: GetParams): Promise<GetResponse> => {
-  return fetch('/api/todos').then(async (res) => {
-    const todos = parseResponse(await res.json()).todos
-
-    const start = (page - 1) * limit
-    const end = page * limit
+  return fetch(`/api/todos?page=${page}&limit=${limit}`).then(async (res) => {
+    const response = parseResponse(await res.json())
 
     return {
-      todos: todos.slice(start, end),
-      total: todos.length,
-      pages: Math.ceil(todos.length / limit),
+      total: response.total,
+      pages: response.pages,
+      todos: response.todos,
     }
   })
 }
