@@ -12,18 +12,20 @@ type Todo = {
 }
 
 export default function Home() {
-  const [page, setPage] = useState(1)
   const [todos, setTodos] = useState<Todo[]>([])
+  const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
 
   const loadMore = useMemo(() => pages > page, [pages, page])
 
   useEffect(() => {
     todosController.get({ page }).then(({ todos, pages }) => {
-      setTodos((prev) => [...prev, ...todos])
+      setTodos(todos)
       setPages(pages)
     })
-  }, [page])
+    return () => setTodos([])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
