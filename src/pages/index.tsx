@@ -16,7 +16,16 @@ export default function Home() {
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
 
-  const loadMore = useMemo(() => pages > page, [pages, page])
+  const hasMorePages = useMemo(() => pages > page, [pages, page])
+
+  const handleLoadMorePages = () => {
+    const nextPage = page + 1
+    setPage(nextPage)
+    todosController.get({ page: nextPage }).then(({ todos, pages }) => {
+      setTodos((prev) => [...prev, ...todos])
+      setPages(pages)
+    })
+  }
 
   useEffect(() => {
     todosController.get({ page }).then(({ todos, pages }) => {
@@ -90,10 +99,10 @@ export default function Home() {
                 </td>
               </tr> */}
 
-              {loadMore && (
+              {hasMorePages && (
                 <tr>
                   <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
-                    <button data-type="load-more" onClick={() => setPage(page + 1)}>
+                    <button data-type="load-more" onClick={handleLoadMorePages}>
                       Página {page}, Carregar mais{' '}
                       <span
                         style={{
