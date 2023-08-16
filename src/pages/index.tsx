@@ -19,6 +19,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   const hasMorePages = useMemo(() => pages > page, [pages, page])
+  const emptyTodosList = useMemo(() => todos.length === 0 && !isLoading, [isLoading, todos])
 
   const handleLoadMorePages = () => {
     const nextPage = page + 1
@@ -104,11 +105,13 @@ export default function Home() {
                 </tr>
               )}
 
-              {/* <tr>
-                <td colSpan={4} align="center">
-                  Nenhum item encontrado
-                </td>
-              </tr> */}
+              {emptyTodosList && (
+                <tr>
+                  <td colSpan={4} align="center">
+                    Nenhum item encontrado
+                  </td>
+                </tr>
+              )}
 
               {hasMorePages && (
                 <tr>
