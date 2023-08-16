@@ -1,3 +1,4 @@
+import type { ChangeEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
@@ -15,11 +16,13 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
-
+  const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
+  const filteredTodos = todos.filter((todo) => todo.content.toLowerCase().includes(search.toLowerCase()))
+
   const hasMorePages = useMemo(() => pages > page, [pages, page])
-  const emptyTodosList = useMemo(() => todos.length === 0 && !isLoading, [isLoading, todos])
+  const emptyTodosList = useMemo(() => filteredTodos.length === 0 && !isLoading, [isLoading, filteredTodos])
 
   const handleLoadMorePages = () => {
     const nextPage = page + 1
@@ -32,6 +35,10 @@ export default function Home() {
         setPages(pages)
       })
       .finally(() => setIsLoading(false))
+  }
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
   }
 
   useEffect(() => {
@@ -68,7 +75,7 @@ export default function Home() {
 
         <section>
           <form>
-            <input type="text" placeholder="Filtrar lista atual, ex: Dentista" />
+            <input type="text" placeholder="Filtrar lista atual, ex: Dentista" onChange={handleSearch} />
           </form>
 
           <table border={1}>
@@ -84,7 +91,7 @@ export default function Home() {
             </thead>
 
             <tbody>
-              {todos.map((todo) => (
+              {filteredTodos.map((todo) => (
                 <tr key={todo.id}>
                   <td>
                     <input type="checkbox" />
