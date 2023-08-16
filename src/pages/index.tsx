@@ -16,22 +16,31 @@ export default function Home() {
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
 
+  const [isLoading, setIsLoading] = useState(true)
+
   const hasMorePages = useMemo(() => pages > page, [pages, page])
 
   const handleLoadMorePages = () => {
     const nextPage = page + 1
+    setIsLoading(true)
     setPage(nextPage)
-    todosController.get({ page: nextPage }).then(({ todos, pages }) => {
-      setTodos((prev) => [...prev, ...todos])
-      setPages(pages)
-    })
+    todosController
+      .get({ page: nextPage })
+      .then(({ todos, pages }) => {
+        setTodos((prev) => [...prev, ...todos])
+        setPages(pages)
+      })
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
-    todosController.get({ page }).then(({ todos, pages }) => {
-      setTodos(todos)
-      setPages(pages)
-    })
+    todosController
+      .get({ page })
+      .then(({ todos, pages }) => {
+        setTodos(todos)
+        setPages(pages)
+      })
+      .finally(() => setIsLoading(false))
     return () => setTodos([])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -87,11 +96,13 @@ export default function Home() {
                 </tr>
               ))}
 
-              {/* <tr>
-                <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
-                  Carregando...
-                </td>
-              </tr> */}
+              {isLoading && (
+                <tr>
+                  <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
+                    Carregando...
+                  </td>
+                </tr>
+              )}
 
               {/* <tr>
                 <td colSpan={4} align="center">
