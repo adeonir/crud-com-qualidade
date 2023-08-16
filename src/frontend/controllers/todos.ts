@@ -1,4 +1,4 @@
-import { todosRepository } from '~/frontend/repositories/todos'
+import { todosRepository } from '~/frontend/repository/todos'
 
 type GetParams = {
   page: number
