@@ -49,7 +49,7 @@ export default function Home() {
         setPages(pages)
       })
       .finally(() => setIsLoading(false))
-    return () => setTodos([])
+    return () => {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
