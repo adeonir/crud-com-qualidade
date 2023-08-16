@@ -20,8 +20,8 @@ type Todo = {
 
 const get = ({ page, limit }: GetParams = {}): GetResponse => {
   const todos = read()
-  const currentPage = page ?? 1
-  const currentLimit = limit ?? 10
+  const currentPage = page || 1
+  const currentLimit = limit || 10
 
   const start = (currentPage - 1) * currentLimit
   const end = currentPage * currentLimit
