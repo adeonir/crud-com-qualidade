@@ -19,7 +19,7 @@ export default function Home() {
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
-  const filteredTodos = todos.filter((todo) => todo.content.toLowerCase().includes(search.toLowerCase()))
+  const filteredTodos = todosController.filterByContent<Todo>({ todos, search })
 
   const hasMorePages = useMemo(() => pages > page, [pages, page])
   const emptyTodosList = useMemo(() => filteredTodos.length === 0 && !isLoading, [isLoading, filteredTodos])
