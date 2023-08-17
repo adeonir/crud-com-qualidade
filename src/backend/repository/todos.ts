@@ -1,11 +1,5 @@
-import { read, create } from '~/crud'
-
-type Todo = {
-  id: string
-  content: string
-  date: string
-  done: boolean
-}
+import { read, create, updateById } from '~/crud'
+import type { Todo } from '~/schema/todo'
 
 type GetParams = {
   page?: number
@@ -20,6 +14,10 @@ type GetResponse = {
 
 type PostParams = {
   content: string
+}
+
+type ToggleDoneParams = {
+  id: string
 }
 
 const get = ({ page, limit }: GetParams = {}): GetResponse => {
@@ -42,7 +40,18 @@ const post = async ({ content }: PostParams): Promise<Todo> => {
   return todo
 }
 
+const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
+  const todo = read().find((todo) => todo.id === id)
+
+  if (!todo) {
+    throw new Error('Todo not found')
+  }
+
+  return updateById(todo.id, { done: !todo.done })
+}
+
 export const todosRepository = {
   get,
   post,
+  toggleDone,
 }
