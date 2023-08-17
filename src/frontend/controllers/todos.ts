@@ -1,12 +1,13 @@
 import { todosRepository } from '~/frontend/repository/todos'
+import type { Todo } from '~/schema/todo'
 
 type GetParams = {
   page: number
 }
 
-type PostParams<T> = {
+type PostParams = {
   content: string
-  onSuccess?: (todo: T) => void
+  onSuccess?: (todo: Todo) => void
   onError?: () => void
 }
 
@@ -19,7 +20,7 @@ const get = async ({ page }: GetParams) => {
   return todosRepository.get({ page: page, limit: 2 })
 }
 
-const post = async <T>({ content, onSuccess, onError }: PostParams<T>) => {
+const post = async ({ content, onSuccess, onError }: PostParams) => {
   if (!content) {
     return onError?.()
   }
@@ -30,7 +31,7 @@ const post = async <T>({ content, onSuccess, onError }: PostParams<T>) => {
     content,
     done: false,
   }
-  onSuccess?.(todo as T)
+  onSuccess?.(todo)
 }
 
 const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {

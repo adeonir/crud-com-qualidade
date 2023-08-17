@@ -48,7 +48,7 @@ export default function Home() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    todosController.post<Todo>({
+    todosController.post({
       content: todoContent,
       onSuccess(newTodo: Todo) {
         setTodos((prev) => [...prev, newTodo])
