@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { todosRepository } from '~/backend/repository/todos'
 
-const get = (req: NextApiRequest, res: NextApiResponse) => {
+const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query
   const page = Number(query.page)
   const limit = Number(query.limit)
@@ -23,6 +23,15 @@ const get = (req: NextApiRequest, res: NextApiResponse) => {
   })
 }
 
+const post = async (req: NextApiRequest, res: NextApiResponse) => {
+  const response = await todosRepository.post({ content: req.body.content })
+
+  res.status(201).json({
+    todo: response,
+  })
+}
+
 export const todosController = {
   get,
+  post,
 }
