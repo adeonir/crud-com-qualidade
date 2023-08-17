@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react'
+import type { ChangeEvent, FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
@@ -14,6 +14,7 @@ type Todo = {
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
+  const [todoContent, setTodoContent] = useState('')
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
   const [search, setSearch] = useState('')
@@ -41,6 +42,24 @@ export default function Home() {
     setSearch(event.target.value)
   }
 
+  const handleTodoContent = (event: ChangeEvent<HTMLInputElement>) => {
+    setTodoContent(event.target.value)
+  }
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    todosController.post<Todo>({
+      content: todoContent,
+      onSuccess(newTodo: Todo) {
+        setTodos((prev) => [...prev, newTodo])
+        setTodoContent('')
+      },
+      onError() {
+        alert('Missing content')
+      },
+    })
+  }
+
   useEffect(() => {
     todosController
       .get({ page })
@@ -65,8 +84,8 @@ export default function Home() {
           <div className="typewriter">
             <h1>O que fazer hoje?</h1>
           </div>
-          <form>
-            <input type="text" placeholder="Correr, Estudar..." />
+          <form onSubmit={handleSubmit}>
+            <input type="text" placeholder="Correr, Estudar..." value={todoContent} onChange={handleTodoContent} />
             <button type="submit" aria-label="Adicionar novo item">
               +
             </button>
