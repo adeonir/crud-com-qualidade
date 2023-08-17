@@ -42,7 +42,30 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
   })
 }
 
+const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query
+  const parsed = z.string().uuid().safeParse(id)
+
+  if (!parsed.success) {
+    return res.status(400).json({ error: { message: 'This id is not valid' } })
+  }
+
+  await todosRepository
+    .toggleDone({ id: parsed.data })
+    .then((todo) => {
+      return res.status(200).json({
+        todo,
+      })
+    })
+    .catch((error) => {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: { message: error.message } })
+      }
+    })
+}
+
 export const todosController = {
   get,
   post,
+  toggleDone,
 }
