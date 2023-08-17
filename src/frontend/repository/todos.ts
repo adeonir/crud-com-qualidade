@@ -1,4 +1,5 @@
-import type { Todo } from '~/schema/todo'
+import { z } from 'zod'
+import { TodoSchema, type Todo } from '~/schema/todo'
 
 type GetParams = {
   page: number
@@ -9,6 +10,10 @@ type GetResponse = {
   todos: Todo[]
   total: number
   pages: number
+}
+
+type PostParams = {
+  content: string
 }
 
 const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
@@ -60,6 +65,33 @@ const get = async ({ page, limit }: GetParams): Promise<GetResponse> => {
   })
 }
 
+const post = async ({ content }: PostParams): Promise<Todo> => {
+  const response = await fetch('/api/todos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ content }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to create todo')
+  }
+
+  const data = await response.json()
+  const schema = z.object({
+    todo: TodoSchema,
+  })
+  const todo = schema.safeParse(data)
+
+  if (!todo.success) {
+    throw new Error('Failed to create todo')
+  }
+
+  return todo.data.todo
+}
+
 export const todosRepository = {
   get,
+  post,
 }
