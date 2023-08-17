@@ -1,3 +1,5 @@
+import type { Todo } from '~/schema/todo'
+
 type GetParams = {
   page: number
   limit: number
@@ -7,13 +9,6 @@ type GetResponse = {
   todos: Todo[]
   total: number
   pages: number
-}
-
-type Todo = {
-  id: string
-  date: Date
-  content: string
-  done: boolean
 }
 
 const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
@@ -33,17 +28,17 @@ const parseResponse = (response: unknown): { total: number; pages: number; todos
           throw new Error('Invalid response from api')
         }
 
-        const { id, content, data, done } = todo as {
+        const { id, content, date, done } = todo as {
           id: string
           content: string
-          data: string
+          date: string
           done: string
         }
 
         return {
           id,
           content,
-          date: new Date(data),
+          date,
           done: String(done).toLowerCase() === 'true',
         }
       }),
