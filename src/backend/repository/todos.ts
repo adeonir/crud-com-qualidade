@@ -1,4 +1,11 @@
-import { read } from '~/crud'
+import { read, create } from '~/crud'
+
+type Todo = {
+  id: string
+  content: string
+  date: string
+  done: boolean
+}
 
 type GetParams = {
   page?: number
@@ -11,11 +18,8 @@ type GetResponse = {
   pages: number
 }
 
-type Todo = {
-  id: string
+type PostParams = {
   content: string
-  date: string
-  done: boolean
 }
 
 const get = ({ page, limit }: GetParams = {}): GetResponse => {
@@ -32,6 +36,13 @@ const get = ({ page, limit }: GetParams = {}): GetResponse => {
     pages: Math.ceil(todos.length / currentLimit),
   }
 }
+
+const post = async ({ content }: PostParams): Promise<Todo> => {
+  const todo = create(content)
+  return todo
+}
+
 export const todosRepository = {
   get,
+  post,
 }
