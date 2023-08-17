@@ -51,7 +51,7 @@ export default function Home() {
     todosController.post({
       content: todoContent,
       onSuccess(newTodo: Todo) {
-        setTodos((prev) => [...prev, newTodo])
+        setTodos((prev) => [newTodo, ...prev])
         setTodoContent('')
       },
       onError() {

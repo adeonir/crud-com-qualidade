@@ -23,7 +23,7 @@ type PostParams = {
 }
 
 const get = ({ page, limit }: GetParams = {}): GetResponse => {
-  const todos = read()
+  const todos = read().reverse()
   const currentPage = page || 1
   const currentLimit = limit || 10
 
