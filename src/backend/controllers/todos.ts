@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { todosRepository } from '~/backend/repository/todos'
+import { z } from 'zod'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query
@@ -23,11 +24,21 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
   })
 }
 
+const postSchema = z.object({
+  content: z.string(),
+})
+
 const post = async (req: NextApiRequest, res: NextApiResponse) => {
-  const response = await todosRepository.post({ content: req.body.content })
+  const body = postSchema.safeParse(req.body)
+
+  if (!body.success) {
+    return res.status(400).json({ error: { message: 'Missing content', description: body.error.issues } })
+  }
+
+  const todo = await todosRepository.post({ content: body.data.content })
 
   res.status(201).json({
-    todo: response,
+    todo,
   })
 }
 
