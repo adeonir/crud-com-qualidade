@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { todosRepository } from '~/frontend/repository/todos'
 import type { Todo } from '~/schema/todo'
 
@@ -21,17 +22,19 @@ const get = async ({ page }: GetParams) => {
 }
 
 const post = async ({ content, onSuccess, onError }: PostParams) => {
-  if (!content) {
+  const parsed = z.string().nonempty().safeParse(content)
+  if (!parsed.success) {
     return onError?.()
   }
 
-  const todo = {
-    id: crypto.randomUUID(),
-    date: new Date().toISOString(),
-    content,
-    done: false,
-  }
-  onSuccess?.(todo)
+  todosRepository
+    .post({ content: parsed.data })
+    .then((todo) => {
+      onSuccess?.(todo)
+    })
+    .catch(() => {
+      onError?.()
+    })
 }
 
 const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {
