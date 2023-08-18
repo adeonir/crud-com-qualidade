@@ -42,6 +42,13 @@ export default function Home() {
     setTodoContent(event.target.value)
   }
 
+  const handleToggleDone = (id: string) => {
+    setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
+    todosController
+      .toggleDone({ id })
+      .catch(() => setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))))
+  }
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
     todosController.post({
@@ -109,10 +116,10 @@ export default function Home() {
               {filteredTodos.map((todo) => (
                 <tr key={todo.id}>
                   <td>
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={todo.done} onChange={() => handleToggleDone(todo.id)} />
                   </td>
                   <td>{todo.id.slice(0, 5)}</td>
-                  <td>{todo.content}</td>
+                  <td>{todo.done ? <s>{todo.content}</s> : todo.content}</td>
                   <td align="right">
                     <button data-type="delete">Apagar</button>
                   </td>
