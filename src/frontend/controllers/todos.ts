@@ -12,6 +12,10 @@ type PostParams = {
   onError?: () => void
 }
 
+type ToggleDoneParams = {
+  id: string
+}
+
 type FilterParams<T> = {
   todos: T[]
   search: string
@@ -37,6 +41,10 @@ const post = async ({ content, onSuccess, onError }: PostParams) => {
     })
 }
 
+const toggleDone = async ({ id }: ToggleDoneParams) => {
+  return todosRepository.toggleDone({ id })
+}
+
 const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {
   return todos.filter((todo) => todo.content.toLowerCase().includes(search.toLowerCase()))
 }
@@ -44,5 +52,6 @@ const filterByContent = <T extends { content: string }>({ todos, search }: Filte
 export const todosController = {
   get,
   post,
+  toggleDone,
   filterByContent,
 }
