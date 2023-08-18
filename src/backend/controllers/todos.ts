@@ -48,7 +48,7 @@ const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
   const parsed = z.string().uuid().safeParse(id)
 
   if (!parsed.success) {
-    return res.status(400).json({ error: { message: 'This id is not valid' } })
+    return res.status(400).json({ error: { message: `This id ${id} is not valid` } })
   }
 
   await todosRepository
@@ -59,9 +59,11 @@ const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
       })
     })
     .catch((error) => {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: { message: error.message } })
+      if (error instanceof HttpNotFoundError) {
+        return res.status(error.status).json({ error: { message: `Todo with id ${id} not found` } })
       }
+
+      return res.status(500).json({ error: { message: 'Internal server error' } })
     })
 }
 
