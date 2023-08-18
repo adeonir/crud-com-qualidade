@@ -11,7 +11,7 @@ type Todo = {
   done: boolean
 }
 
-export function create(content: string): Todo {
+export function createNew(content: string): Todo {
   const todo: Todo = {
     id: crypto.randomUUID(),
     date: new Date().toISOString(),
@@ -19,13 +19,13 @@ export function create(content: string): Todo {
     done: false,
   }
 
-  const todos: Todo[] = [...read(), todo]
+  const todos: Todo[] = [...readAll(), todo]
 
   fs.writeFileSync(DB_PATH, JSON.stringify({ todos }, null, 2))
   return todo
 }
 
-export function read(): Todo[] {
+export function readAll(): Todo[] {
   const db = fs.readFileSync(DB_PATH).toString()
   const todos = JSON.parse(db || '{}').todos as Todo[]
 
@@ -34,7 +34,7 @@ export function read(): Todo[] {
 }
 
 export function updateById(id: UUID, partial: Partial<Todo>): Todo {
-  const todos = read()
+  const todos = readAll()
   const toUpdate = todos.find((todo) => todo.id === id)
 
   if (!toUpdate) {
@@ -49,7 +49,7 @@ export function updateById(id: UUID, partial: Partial<Todo>): Todo {
 }
 
 export function deleteById(id: UUID) {
-  const todos = read()
+  const todos = readAll()
   const filtered = todos.filter((todo) => todo.id !== id)
   fs.writeFileSync(DB_PATH, JSON.stringify({ todos: filtered }, null, 2))
 }

@@ -1,4 +1,4 @@
-import { read, create, updateById } from '~/crud'
+import * as crud from '~/crud'
 import type { Todo } from '~/schema/todo'
 
 type GetParams = {
@@ -21,7 +21,7 @@ type ToggleDoneParams = {
 }
 
 const get = ({ page, limit }: GetParams = {}): GetResponse => {
-  const todos = read().reverse()
+  const todos = crud.readAll().reverse()
   const currentPage = page || 1
   const currentLimit = limit || 10
 
@@ -36,18 +36,18 @@ const get = ({ page, limit }: GetParams = {}): GetResponse => {
 }
 
 const post = async ({ content }: PostParams): Promise<Todo> => {
-  const todo = create(content)
+  const todo = crud.createNew(content)
   return todo
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
-  const todo = read().find((todo) => todo.id === id)
+  const todo = crud.readAll().find((todo) => todo.id === id)
 
   if (!todo) {
     throw new Error('Todo not found')
   }
 
-  return updateById(todo.id, { done: !todo.done })
+  return crud.updateById(todo.id, { done: !todo.done })
 }
 
 export const todosRepository = {
