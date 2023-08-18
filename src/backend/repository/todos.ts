@@ -1,5 +1,6 @@
 import * as crud from '~/crud'
 import type { Todo } from '~/schema/todo'
+import { HttpNotFoundError } from '../infra/errors'
 
 type FindAllParams = {
   page?: number
@@ -17,6 +18,10 @@ type CreateNewParams = {
 }
 
 type ToggleDoneParams = {
+  id: string
+}
+
+type DeleteByIdParams = {
   id: string
 }
 
@@ -50,8 +55,19 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
   return crud.updateById(todo.id, { done: !todo.done })
 }
 
+const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
+  const todo = crud.findAll().find((todo) => todo.id === id)
+
+  if (!todo) {
+    throw new HttpNotFoundError('Todo not found')
+  }
+
+  return crud.deleteById(todo.id)
+}
+
 export const todosRepository = {
   findAll,
   createNew,
   toggleDone,
+  deleteById,
 }
