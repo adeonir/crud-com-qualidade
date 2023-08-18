@@ -16,6 +16,10 @@ type PostParams = {
   content: string
 }
 
+type ToggleDoneParams = {
+  id: string
+}
+
 const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
   if (
     response !== null &&
@@ -91,7 +95,30 @@ const post = async ({ content }: PostParams): Promise<Todo> => {
   return todo.data.todo
 }
 
+const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
+  const response = await fetch(`/api/todos/${id}/toggle-done`, {
+    method: 'PUT',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to update todo')
+  }
+
+  const data = await response.json()
+  const schema = z.object({
+    todo: TodoSchema,
+  })
+  const todo = schema.safeParse(data)
+
+  if (!todo.success) {
+    throw new Error('Failed to update todo')
+  }
+
+  return todo.data.todo
+}
+
 export const todosRepository = {
   get,
   post,
+  toggleDone,
 }
