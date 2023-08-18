@@ -26,7 +26,7 @@ export default function Home() {
     setIsLoading(true)
     setPage(nextPage)
     todosController
-      .get({ page: nextPage })
+      .findAll({ page: nextPage })
       .then(({ todos, pages }) => {
         setTodos((prev) => [...prev, ...todos])
         setPages(pages)
@@ -51,7 +51,7 @@ export default function Home() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    todosController.post({
+    todosController.createNew({
       content: todoContent,
       onSuccess(newTodo: Todo) {
         setTodos((prev) => [newTodo, ...prev])
@@ -65,7 +65,7 @@ export default function Home() {
 
   useEffect(() => {
     todosController
-      .get({ page })
+      .findAll({ page })
       .then(({ todos, pages }) => {
         setTodos(todos)
         setPages(pages)

@@ -4,11 +4,11 @@ import { todosController } from '~/backend/controllers/todos'
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    return todosController.get(req, res)
+    return todosController.findAll(req, res)
   }
 
   if (req.method === 'POST') {
-    return todosController.post(req, res)
+    return todosController.createNew(req, res)
   }
 
   res.status(405).json({ error: { message: 'Method not allowed' } })

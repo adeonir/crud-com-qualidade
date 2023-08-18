@@ -1,18 +1,18 @@
 import { z } from 'zod'
 import { TodoSchema, type Todo } from '~/schema/todo'
 
-type GetParams = {
+type FindAllParams = {
   page: number
   limit: number
 }
 
-type GetResponse = {
+type FindAllResponse = {
   todos: Todo[]
   total: number
   pages: number
 }
 
-type PostParams = {
+type CreateNewParams = {
   content: string
 }
 
@@ -57,7 +57,7 @@ const parseResponse = (response: unknown): { total: number; pages: number; todos
   return { total: 0, pages: 1, todos: [] }
 }
 
-const get = async ({ page, limit }: GetParams): Promise<GetResponse> => {
+const findAll = async ({ page, limit }: FindAllParams): Promise<FindAllResponse> => {
   return fetch(`/api/todos?page=${page}&limit=${limit}`).then(async (res) => {
     const response = parseResponse(await res.json())
 
@@ -69,7 +69,7 @@ const get = async ({ page, limit }: GetParams): Promise<GetResponse> => {
   })
 }
 
-const post = async ({ content }: PostParams): Promise<Todo> => {
+const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
   const response = await fetch('/api/todos', {
     method: 'POST',
     headers: {
@@ -118,7 +118,7 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
 }
 
 export const todosRepository = {
-  get,
-  post,
+  findAll,
+  createNew,
   toggleDone,
 }

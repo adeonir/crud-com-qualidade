@@ -11,21 +11,7 @@ type Todo = {
   done: boolean
 }
 
-export function createNew(content: string): Todo {
-  const todo: Todo = {
-    id: crypto.randomUUID(),
-    date: new Date().toISOString(),
-    content,
-    done: false,
-  }
-
-  const todos: Todo[] = [...readAll(), todo]
-
-  fs.writeFileSync(DB_PATH, JSON.stringify({ todos }, null, 2))
-  return todo
-}
-
-export function readAll(): Todo[] {
+function findAll(): Todo[] {
   const db = fs.readFileSync(DB_PATH).toString()
   const todos = JSON.parse(db || '{}').todos as Todo[]
 
@@ -33,8 +19,22 @@ export function readAll(): Todo[] {
   return todos
 }
 
-export function updateById(id: UUID, partial: Partial<Todo>): Todo {
-  const todos = readAll()
+function createNew(content: string): Todo {
+  const todo: Todo = {
+    id: crypto.randomUUID(),
+    date: new Date().toISOString(),
+    content,
+    done: false,
+  }
+
+  const todos: Todo[] = [...findAll(), todo]
+
+  fs.writeFileSync(DB_PATH, JSON.stringify({ todos }, null, 2))
+  return todo
+}
+
+function updateById(id: UUID, partial: Partial<Todo>): Todo {
+  const todos = findAll()
   const toUpdate = todos.find((todo) => todo.id === id)
 
   if (!toUpdate) {
@@ -48,21 +48,24 @@ export function updateById(id: UUID, partial: Partial<Todo>): Todo {
   return updated
 }
 
-export function deleteById(id: UUID) {
-  const todos = readAll()
+function deleteById(id: UUID) {
+  const todos = findAll()
   const filtered = todos.filter((todo) => todo.id !== id)
   fs.writeFileSync(DB_PATH, JSON.stringify({ todos: filtered }, null, 2))
 }
 
-export function cleanDb(): void {
-  fs.writeFileSync(DB_PATH, '')
-}
+export { createNew, findAll, updateById, deleteById }
 
-// Simulation
+// export function cleanDb(): void {
+//   fs.writeFileSync(DB_PATH, '')
+// }
+
+// # Simulation
+// -------------------
 // cleanDb()
-// const first = create('Hello World')
-// const second = create('Hello World Again')
-// console.log(read())
+// const first = createNew('Hello World')
+// const second = createNew('Hello World Again')
+// console.log(findAll())
 // updateById(first.id, { done: true })
 // deleteById(second.id)
-// console.log(read())
+// console.log(findAll())

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { todosRepository } from '~/backend/repository/todos'
 import { z } from 'zod'
 
-const get = async (req: NextApiRequest, res: NextApiResponse) => {
+const findAll = async (req: NextApiRequest, res: NextApiResponse) => {
   const query = req.query
   const page = Number(query.page)
   const limit = Number(query.limit)
@@ -15,7 +15,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: { message: 'Limit is not a number' } })
   }
 
-  const response = todosRepository.get({ page, limit })
+  const response = todosRepository.findAll({ page, limit })
 
   res.status(200).json({
     total: response.total,
@@ -28,14 +28,14 @@ const postSchema = z.object({
   content: z.string(),
 })
 
-const post = async (req: NextApiRequest, res: NextApiResponse) => {
+const createNew = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = postSchema.safeParse(req.body)
 
   if (!body.success) {
     return res.status(400).json({ error: { message: 'Missing content', description: body.error.issues } })
   }
 
-  const todo = await todosRepository.post({ content: body.data.content })
+  const todo = await todosRepository.createNew({ content: body.data.content })
 
   res.status(201).json({
     todo,
@@ -65,7 +65,7 @@ const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 export const todosController = {
-  get,
-  post,
+  findAll,
+  createNew,
   toggleDone,
 }
