@@ -4,13 +4,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { GlobalStyles } from '~/styles/global-styles'
 
 import { todosController } from '~/frontend/controllers/todos'
+import type { Todo } from '~/schema/todo'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
-
-type Todo = {
-  id: string
-  content: string
-}
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
