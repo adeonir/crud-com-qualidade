@@ -121,7 +121,7 @@ export default function Home() {
 
             <tbody>
               {filteredTodos.map((todo) => (
-                <tr key={todo.id}>
+                <tr key={todo.id} role="row">
                   <td>
                     <input type="checkbox" checked={todo.done} onChange={() => handleToggleDone(todo.id)} />
                   </td>
