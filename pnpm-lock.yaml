@@ -52,9 +52,18 @@ devDependencies:
   eslint-config-prettier:
     specifier: 9.0.0
     version: 9.0.0(eslint@8.47.0)
+  eslint-plugin-chai-friendly:
+    specifier: 0.7.2
+    version: 0.7.2(eslint@8.47.0)
+  eslint-plugin-cypress:
+    specifier: 2.14.0
+    version: 2.14.0(eslint@8.47.0)
   eslint-plugin-import:
     specifier: 2.28.0
     version: 2.28.0(@typescript-eslint/parser@6.4.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.47.0)
+  eslint-plugin-no-only-tests:
+    specifier: 3.1.0
+    version: 3.1.0
   eslint-plugin-prettier:
     specifier: 5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.47.0)(prettier@3.0.1)
@@ -1437,6 +1446,24 @@ packages:
       - supports-color
     dev: true
 
+  /eslint-plugin-chai-friendly@0.7.2(eslint@8.47.0):
+    resolution: {integrity: sha512-LOIfGx5sZZ5FwM1shr2GlYAWV9Omdi+1/3byuVagvQNoGUuU0iHhp7AfjA1uR+4dJ4Isfb4+FwBJgQajIw9iAg==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      eslint: '>=3.0.0'
+    dependencies:
+      eslint: 8.47.0
+    dev: true
+
+  /eslint-plugin-cypress@2.14.0(eslint@8.47.0):
+    resolution: {integrity: sha512-eW6tv7iIg7xujleAJX4Ujm649Bf5jweqa4ObPEIuueYRyLZt7qXGWhCY/n4bfeFW/j6nQZwbIBHKZt6EKcL/cg==}
+    peerDependencies:
+      eslint: '>= 3.2.1'
+    dependencies:
+      eslint: 8.47.0
+      globals: 13.21.0
+    dev: true
+
   /eslint-plugin-import@2.28.0(@typescript-eslint/parser@6.4.0)(eslint-import-resolver-typescript@3.6.0)(eslint@8.47.0):
     resolution: {integrity: sha512-B8s/n+ZluN7sxj9eUf7/pRFERX0r5bnFA2dCaLHy2ZeaQEAz0k+ZZkFWRFHJAqxfxQDx6KLv9LeIki7cFdwW+Q==}
     engines: {node: '>=4'}
@@ -1496,6 +1523,11 @@ packages:
       object.entries: 1.1.6
       object.fromentries: 2.0.6
       semver: 6.3.1
+    dev: true
+
+  /eslint-plugin-no-only-tests@3.1.0:
+    resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
+    engines: {node: '>=5.0.0'}
     dev: true
 
   /eslint-plugin-prettier@5.0.0(eslint-config-prettier@9.0.0)(eslint@8.47.0)(prettier@3.0.1):
