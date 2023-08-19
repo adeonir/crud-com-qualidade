@@ -16,6 +16,10 @@ type ToggleDoneParams = {
   id: string
 }
 
+type DeleteByIdParams = {
+  id: string
+}
+
 type FilterParams<T> = {
   todos: T[]
   search: string
@@ -41,8 +45,12 @@ const createNew = async ({ content, onSuccess, onError }: CreateNewParams) => {
     })
 }
 
-const toggleDone = async ({ id }: ToggleDoneParams) => {
+const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
   return todosRepository.toggleDone({ id })
+}
+
+const deleteById = async ({ id }: DeleteByIdParams) => {
+  return todosRepository.deleteById({ id })
 }
 
 const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {
@@ -53,5 +61,6 @@ export const todosController = {
   findAll,
   createNew,
   toggleDone,
+  deleteById,
   filterByContent,
 }
