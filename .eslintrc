@@ -25,7 +25,7 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "ignorePatterns": ["node_modules"],
   "rules": {
-    "no-console": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "@typescript-eslint/consistent-type-imports": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
