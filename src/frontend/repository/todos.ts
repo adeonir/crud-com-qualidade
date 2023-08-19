@@ -20,6 +20,10 @@ type ToggleDoneParams = {
   id: string
 }
 
+type DeleteByIdParams = {
+  id: string
+}
+
 const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
   if (
     response !== null &&
@@ -117,8 +121,19 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
   return todo.data.todo
 }
 
+const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
+  const response = await fetch(`/api/todos/${id}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete todo')
+  }
+}
+
 export const todosRepository = {
   findAll,
   createNew,
   toggleDone,
+  deleteById,
 }
