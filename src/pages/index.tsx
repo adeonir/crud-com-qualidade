@@ -43,10 +43,17 @@ export default function Home() {
   }
 
   const handleToggleDone = (id: string) => {
-    setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
     todosController
       .toggleDone({ id })
-      .catch(() => setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))))
+      .then(() => setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))))
+      .catch(() => console.error('Failed to toggle done'))
+  }
+
+  const handleDelete = (id: string) => {
+    todosController
+      .deleteById({ id })
+      .then(() => setTodos((todos) => todos.filter((todo) => todo.id !== id)))
+      .catch(() => console.error('Failed to delete'))
   }
 
   const handleSubmit = (event: FormEvent) => {
@@ -121,7 +128,9 @@ export default function Home() {
                   <td>{todo.id.slice(0, 5)}</td>
                   <td>{todo.done ? <s>{todo.content}</s> : todo.content}</td>
                   <td align="right">
-                    <button data-type="delete">Apagar</button>
+                    <button data-type="delete" onClick={() => handleDelete(todo.id)}>
+                      Apagar
+                    </button>
                   </td>
                 </tr>
               ))}
