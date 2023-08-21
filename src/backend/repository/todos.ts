@@ -1,4 +1,3 @@
-import * as crud from '~/crud'
 import { TodoSchema, type Todo } from '~/schema/todo'
 import { HttpNotFoundError } from '../infra/errors'
 
@@ -8,6 +7,10 @@ import { z } from 'zod'
 type FindAllParams = {
   page?: number
   limit?: number
+}
+
+type FindOneByIdParams = {
+  id: string
 }
 
 type FindAllResponse = {
@@ -29,6 +32,22 @@ type DeleteByIdParams = {
 }
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET)
+
+const findOneById = async ({ id }: FindOneByIdParams): Promise<Todo> => {
+  const { data, error } = await supabase.from('todos').select('*').eq('id', id).single()
+
+  if (error) {
+    throw new Error('Failed to fetch data')
+  }
+
+  const parsed = TodoSchema.parse(data)
+
+  if (!parsed) {
+    throw new Error('Failed to fetch data')
+  }
+
+  return parsed
+}
 
 const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResponse> => {
   const currentPage = page || 1
@@ -73,13 +92,20 @@ const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
-  const todo = crud.findAll().find((todo) => todo.id === id)
+  const todo = await findOneById({ id })
+  const { data, error } = await supabase.from('todos').update({ done: !todo.done }).eq('id', id).select().single()
 
-  if (!todo) {
-    throw new Error('Todo not found')
+  if (error) {
+    throw new Error('Failed to update todo')
   }
 
-  return crud.updateById(todo.id, { done: !todo.done })
+  const parsed = TodoSchema.parse(data)
+
+  if (!parsed) {
+    throw new Error('Failed to update todo')
+  }
+
+  return parsed
 }
 
 const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
