@@ -1,3 +1,5 @@
+'use client'
+
 import type { ChangeEvent, FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 
