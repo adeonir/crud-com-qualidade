@@ -95,7 +95,13 @@ export default function Home() {
             <h1>O que fazer hoje?</h1>
           </div>
           <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="Correr, Estudar..." value={todoContent} onChange={handleTodoContent} />
+            <input
+              type="text"
+              name="addNew"
+              placeholder="Correr, Estudar..."
+              value={todoContent}
+              onChange={handleTodoContent}
+            />
             <button type="submit" aria-label="Adicionar novo item">
               +
             </button>
