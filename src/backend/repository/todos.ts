@@ -83,13 +83,11 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
 }
 
 const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
-  const todo = crud.findAll().find((todo) => todo.id === id)
+  const { error } = await supabase.from('todos').delete().match({ id })
 
-  if (!todo) {
+  if (error) {
     throw new HttpNotFoundError('Todo not found')
   }
-
-  return crud.deleteById(todo.id)
 }
 
 export const todosRepository = {
