@@ -2,6 +2,8 @@ import * as crud from '~/crud'
 import type { Todo } from '~/schema/todo'
 import { HttpNotFoundError } from '../infra/errors'
 
+import { createClient } from '@supabase/supabase-js'
+
 type FindAllParams = {
   page?: number
   limit?: number
@@ -25,19 +27,36 @@ type DeleteByIdParams = {
   id: string
 }
 
-const findAll = ({ page, limit }: FindAllParams = {}): FindAllResponse => {
-  const todos = crud.findAll().reverse()
-  const currentPage = page || 1
-  const currentLimit = limit || 10
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET)
 
-  const start = (currentPage - 1) * currentLimit
-  const end = currentPage * currentLimit
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResponse> => {
+  const { data, error, count } = await supabase.from('todos').select('*', { count: 'exact' })
+
+  if (error) {
+    throw new Error('Failed to fetch data')
+  }
+
+  const todos = data as Todo[]
 
   return {
-    todos: todos.slice(start, end),
-    total: todos.length,
-    pages: Math.ceil(todos.length / currentLimit),
+    todos: todos,
+    total: count || todos.length,
+    pages: 1,
   }
+
+  // const todos = crud.findAll().reverse()
+  // const currentPage = page || 1
+  // const currentLimit = limit || 10
+
+  // const start = (currentPage - 1) * currentLimit
+  // const end = currentPage * currentLimit
+
+  // return {
+  //   todos: todos.slice(start, end),
+  //   total: todos.length,
+  //   pages: Math.ceil(todos.length / currentLimit),
+  // }
 }
 
 const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
