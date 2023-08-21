@@ -7,7 +7,7 @@ on:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
@@ -26,8 +26,8 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
-    container: cypress/browsers:node18.12.0-chrome107
+    runs-on: ubuntu-22.04
+    container: cypress/browsers:node16.16.0-chrome107-ff107-edge
 
     steps:
       - name: Checkout
@@ -42,4 +42,4 @@ jobs:
         run: pnpm install
 
       - name: Running cypress
-        run: pnpm test:cy
+        run: pnpm test
