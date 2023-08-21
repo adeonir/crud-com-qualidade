@@ -1,33 +1,41 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { todosRepository } from '~/backend/repository/todos'
 import { z } from 'zod'
-import { HttpNotFoundError } from '../infra/errors'
 
-const findAll = async (req: NextApiRequest, res: NextApiResponse) => {
-  const query = req.query
-  const page = Number(query.page)
-  const limit = Number(query.limit)
-
-  if (query.page && isNaN(page)) {
-    return res.status(400).json({ error: { message: 'Page is not a number' } })
-  }
-
-  if (query.limit && isNaN(limit)) {
-    return res.status(400).json({ error: { message: 'Limit is not a number' } })
-  }
-
-  const response = await todosRepository.findAll({ page, limit })
-
-  res.status(200).json({
-    total: response.total,
-    pages: response.pages,
-    todos: response.todos,
-  })
-}
+import { HttpNotFoundError } from '~/backend/infra/errors'
+import { todosRepository } from '~/backend/repository/todos'
 
 const postSchema = z.object({
   content: z.string(),
 })
+
+const findAll = async (request: Request) => {
+  const { searchParams } = new URL(request.url)
+  const query = {
+    page: searchParams.get('page'),
+    limit: searchParams.get('limit'),
+  }
+  const page = Number(query.page)
+  const limit = Number(query.limit)
+
+  if (query.page && isNaN(page)) {
+    return new Response(JSON.stringify({ error: { message: 'Page is not a number' } }), { status: 400 })
+  }
+
+  if (query.limit && isNaN(limit)) {
+    return new Response(JSON.stringify({ error: { message: 'Limit is not a number' } }), { status: 400 })
+  }
+
+  const response = await todosRepository.findAll({ page, limit })
+
+  return new Response(
+    JSON.stringify({
+      total: response.total,
+      pages: response.pages,
+      todos: response.todos,
+    }),
+    { status: 200 },
+  )
+}
 
 const createNew = async (req: NextApiRequest, res: NextApiResponse) => {
   const body = postSchema.safeParse(req.body)
