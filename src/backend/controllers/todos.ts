@@ -16,7 +16,7 @@ const findAll = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: { message: 'Limit is not a number' } })
   }
 
-  const response = todosRepository.findAll({ page, limit })
+  const response = await todosRepository.findAll({ page, limit })
 
   res.status(200).json({
     total: response.total,
