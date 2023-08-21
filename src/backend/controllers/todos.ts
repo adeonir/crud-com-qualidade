@@ -36,7 +36,9 @@ const createNew = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: { message: 'Missing content', description: body.error.issues } })
   }
 
-  const todo = await todosRepository.createNew({ content: body.data.content })
+  const todo = await todosRepository.createNew({ content: body.data.content }).catch(() => {
+    res.status(400).json({ error: { message: 'Failed to create todo' } })
+  })
 
   res.status(201).json({
     todo,

@@ -61,8 +61,15 @@ const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResp
 }
 
 const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
-  const todo = crud.createNew(content)
-  return todo
+  const { data, error } = await supabase.from('todos').insert([{ content }]).select().single()
+
+  if (error) {
+    throw new Error('Failed to create todo')
+  }
+
+  const parsed = TodoSchema.parse(data)
+
+  return parsed
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
