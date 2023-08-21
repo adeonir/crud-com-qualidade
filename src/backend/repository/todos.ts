@@ -1,8 +1,8 @@
-import { TodoSchema, type Todo } from '~/schema/todo'
-import { HttpNotFoundError } from '../infra/errors'
-
-import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
+
+import { TodoSchema, type Todo } from '~/schema/todo'
+import { HttpNotFoundError } from '~/backend/infra/errors'
+import { supabase } from '~/backend/infra/database'
 
 type FindAllParams = {
   page?: number
@@ -30,8 +30,6 @@ type ToggleDoneParams = {
 type DeleteByIdParams = {
   id: string
 }
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET)
 
 const findOneById = async ({ id }: FindOneByIdParams): Promise<Todo> => {
   const { data, error } = await supabase.from('todos').select('*').eq('id', id).single()
