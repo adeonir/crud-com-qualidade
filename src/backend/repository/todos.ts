@@ -37,7 +37,11 @@ const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResp
   const start = (currentPage - 1) * currentLimit
   const end = currentPage * currentLimit - 1
 
-  const { data, error, count } = await supabase.from('todos').select('*', { count: 'exact' }).range(start, end)
+  const { data, error, count } = await supabase
+    .from('todos')
+    .select('*', { count: 'exact' })
+    .order('date', { ascending: false })
+    .range(start, end)
 
   if (error) {
     throw new Error('Failed to fetch data')
