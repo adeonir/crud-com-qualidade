@@ -29,34 +29,24 @@ type DeleteByIdParams = {
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResponse> => {
-  const { data, error, count } = await supabase.from('todos').select('*', { count: 'exact' })
+  const currentPage = page || 1
+  const currentLimit = limit || 10
+
+  const start = (currentPage - 1) * currentLimit
+  const end = currentPage * currentLimit - 1
+
+  const { data, error, count } = await supabase.from('todos').select('*', { count: 'exact' }).range(start, end)
 
   if (error) {
     throw new Error('Failed to fetch data')
   }
 
   const todos = data as Todo[]
+  const total = count || todos.length
+  const pages = Math.ceil(total / currentLimit)
 
-  return {
-    todos: todos,
-    total: count || todos.length,
-    pages: 1,
-  }
-
-  // const todos = crud.findAll().reverse()
-  // const currentPage = page || 1
-  // const currentLimit = limit || 10
-
-  // const start = (currentPage - 1) * currentLimit
-  // const end = currentPage * currentLimit
-
-  // return {
-  //   todos: todos.slice(start, end),
-  //   total: todos.length,
-  //   pages: Math.ceil(todos.length / currentLimit),
-  // }
+  return { todos, total, pages }
 }
 
 const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
