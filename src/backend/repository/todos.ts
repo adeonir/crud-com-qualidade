@@ -1,8 +1,9 @@
 import * as crud from '~/crud'
-import type { Todo } from '~/schema/todo'
+import { TodoSchema, type Todo } from '~/schema/todo'
 import { HttpNotFoundError } from '../infra/errors'
 
 import { createClient } from '@supabase/supabase-js'
+import { z } from 'zod'
 
 type FindAllParams = {
   page?: number
@@ -42,7 +43,13 @@ const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResp
     throw new Error('Failed to fetch data')
   }
 
-  const todos = data as Todo[]
+  const parsed = z.array(TodoSchema).safeParse(data)
+
+  if (!parsed.success) {
+    throw parsed.error
+  }
+
+  const todos = parsed.data
   const total = count || todos.length
   const pages = Math.ceil(total / currentLimit)
 
