@@ -45,10 +45,8 @@ export default function Home() {
   }
 
   const handleToggleDone = (id: string) => {
-    todosController
-      .toggleDone({ id })
-      .then(() => setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))))
-      .catch(() => console.error('Failed to toggle done'))
+    setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
+    todosController.toggleDone({ id }).catch(() => console.error('Failed to toggle done'))
   }
 
   const handleDelete = (id: string) => {
