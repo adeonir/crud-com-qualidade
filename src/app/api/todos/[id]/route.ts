@@ -1,4 +1,4 @@
-import { todosController } from '~/backend/controllers/todos'
+import { todosController } from '~/backend/controller/todos'
 
 type DeleteParams = {
   id: string

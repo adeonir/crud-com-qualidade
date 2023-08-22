@@ -1,4 +1,4 @@
-import { todosController } from '~/backend/controllers/todos'
+import { todosController } from '~/backend/controller/todos'
 
 export async function GET(request: Request) {
   return await todosController.findAll(request)

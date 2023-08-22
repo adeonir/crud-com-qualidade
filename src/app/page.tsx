@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { GlobalStyles } from '~/styles/global-styles'
 
-import { todosController } from '~/frontend/controllers/todos'
+import { todosController } from '~/frontend/controller/todos'
 import type { Todo } from '~/schema/todo'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
