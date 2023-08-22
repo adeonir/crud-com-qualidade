@@ -87,16 +87,13 @@ const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
   }
 
   const data = await response.json()
-  const schema = z.object({
-    todo: TodoSchema,
-  })
-  const todo = schema.safeParse(data)
+  const todo = TodoSchema.safeParse(data)
 
   if (!todo.success) {
     throw new Error('Failed to create todo')
   }
 
-  return todo.data.todo
+  return todo.data
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
