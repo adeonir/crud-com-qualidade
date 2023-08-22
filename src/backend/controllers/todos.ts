@@ -1,8 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
 import { HttpNotFoundError } from '~/backend/infra/errors'
 import { todosRepository } from '~/backend/repository/todos'
+
+type ToggleDoneParams = {
+  id: string
+}
 
 type DeleteByIdParams = {
   id: string
@@ -57,28 +60,22 @@ const createNew = async (request: Request) => {
   return new Response(JSON.stringify(todo), { status: 201 })
 }
 
-const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query
-  const parsed = z.string().uuid().safeParse(id)
+const toggleDone = async (_request: Request, params: ToggleDoneParams) => {
+  const { id } = params
+  const parsed = z.string().uuid().nonempty().safeParse(id)
 
   if (!parsed.success) {
-    return res.status(400).json({ error: { message: `This id ${id} is not valid` } })
+    return new Response(JSON.stringify({ error: { message: `This id ${id} is not valid` } }), { status: 400 })
   }
 
-  await todosRepository
-    .toggleDone({ id: parsed.data })
-    .then((todo) => {
-      return res.status(200).json({
-        todo,
-      })
+  try {
+    const todo = await todosRepository.toggleDone({ id: parsed.data })
+    return new Response(JSON.stringify(todo), { status: 200 })
+  } catch (error) {
+    return new Response(JSON.stringify({ error: { message: `Todo with id ${id} not found` } }), {
+      status: 404,
     })
-    .catch((error) => {
-      if (error instanceof HttpNotFoundError) {
-        return res.status(error.status).json({ error: { message: `Todo with id ${id} not found` } })
-      }
-
-      return res.status(500).json({ error: { message: 'Internal server error' } })
-    })
+  }
 }
 
 const deleteById = async (_request: Request, params: DeleteByIdParams) => {
