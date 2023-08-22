@@ -29,20 +29,13 @@ const findAll = async ({ page }: FindAllParams) => {
   return todosRepository.findAll({ page: page, limit: 2 })
 }
 
-const createNew = async ({ content, onSuccess, onError }: CreateNewParams) => {
+const createNew = async ({ content }: CreateNewParams) => {
   const parsed = z.string().nonempty().safeParse(content)
   if (!parsed.success) {
-    return onError?.()
+    return parsed.error
   }
 
-  todosRepository
-    .createNew({ content: parsed.data })
-    .then((todo) => {
-      onSuccess?.(todo)
-    })
-    .catch(() => {
-      onError?.()
-    })
+  return todosRepository.createNew({ content: parsed.data })
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {

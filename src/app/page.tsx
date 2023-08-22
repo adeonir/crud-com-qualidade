@@ -60,16 +60,14 @@ export default function Home() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    todosController.createNew({
-      content: todoContent,
-      onSuccess(newTodo: Todo) {
-        setTodos((prev) => [newTodo, ...prev])
+    todosController
+      .createNew({
+        content: todoContent,
+      })
+      .then((todo) => {
+        setTodos((prev) => [todo as Todo, ...prev])
         setTodoContent('')
-      },
-      onError() {
-        alert('Missing content')
-      },
-    })
+      })
   }
 
   useEffect(() => {
