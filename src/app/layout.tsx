@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import StyledJsxRegistry from 'registry'
+import StyledJsxRegistry from './registry'
 
 export const metadata = {
   title: 'Next.js',
