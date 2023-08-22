@@ -37,20 +37,20 @@ const findAll = async (request: Request) => {
   )
 }
 
-const createNew = async (req: NextApiRequest, res: NextApiResponse) => {
-  const body = postSchema.safeParse(req.body)
+const createNew = async (request: Request) => {
+  const body = postSchema.safeParse(await request.json())
 
   if (!body.success) {
-    return res.status(400).json({ error: { message: 'Missing content', description: body.error.issues } })
+    return new Response(JSON.stringify({ error: { message: 'Missing content', description: body.error.issues } }), {
+      status: 400,
+    })
   }
 
   const todo = await todosRepository.createNew({ content: body.data.content }).catch(() => {
-    res.status(400).json({ error: { message: 'Failed to create todo' } })
+    return new Response(JSON.stringify({ error: { message: 'Failed to create todo' } }), { status: 400 })
   })
 
-  res.status(201).json({
-    todo,
-  })
+  return new Response(JSON.stringify(todo), { status: 201 })
 }
 
 const toggleDone = async (req: NextApiRequest, res: NextApiResponse) => {
