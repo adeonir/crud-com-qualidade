@@ -2,6 +2,7 @@
 
 import type { ChangeEvent, FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
+import GithubCorner from 'react-github-corner'
 
 import type { Todo } from '~/schema/todo'
 
@@ -88,6 +89,7 @@ export default function Home() {
 
   return (
     <>
+      <GithubCorner href="https://github.com/adeonir/crud-com-qualidade" />
       <GlobalStyles themeName="devsoutinho" />
       <main>
         <header

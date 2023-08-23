@@ -49,6 +49,7 @@
     "lint-staged": "14.0.1",
     "nodemon": "3.0.1",
     "prettier": "3.0.2",
+    "react-github-corner": "2.5.0",
     "start-server-and-test": "2.0.0"
   }
 }
