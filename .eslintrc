@@ -24,7 +24,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "cypress", "chai-friendly", "no-only-tests"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "cypress", "chai-friendly", "no-only-tests", "import"],
   "ignorePatterns": ["node_modules"],
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }],
@@ -35,7 +35,44 @@
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }],
-    "no-only-tests/no-only-tests": "error"
+    "no-only-tests/no-only-tests": "error",
+    "import/first": "error",
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": {
+          "order": "asc"
+        },
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "patternOptions": {
+              "partial": true,
+              "nocomment": true
+            },
+            "group": "external"
+          }
+        ]
+      }
+    ]
   },
   "overrides": []
 }
