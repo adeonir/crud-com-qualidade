@@ -35,15 +35,15 @@ const createNew = async ({ content }: CreateNewParams) => {
     return parsed.error
   }
 
-  return todosRepository.createNew({ content: parsed.data })
+  return await todosRepository.createNew({ content: parsed.data })
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
-  return todosRepository.toggleDone({ id })
+  return await todosRepository.toggleDone({ id })
 }
 
 const deleteById = async ({ id }: DeleteByIdParams) => {
-  return todosRepository.deleteById({ id })
+  return await todosRepository.deleteById({ id })
 }
 
 const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {

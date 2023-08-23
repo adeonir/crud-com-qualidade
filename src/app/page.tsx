@@ -12,16 +12,31 @@ const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([])
   const [todoContent, setTodoContent] = useState('')
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(0)
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
-  const filteredTodos = todosController.filterByContent<Todo>({ todos, search })
-
   const hasMorePages = useMemo(() => pages > page, [pages, page])
   const emptyTodosList = useMemo(() => filteredTodos.length === 0 && !isLoading, [isLoading, filteredTodos])
+
+  useEffect(() => {
+    setFilteredTodos(todosController.filterByContent<Todo>({ todos, search }))
+  }, [todos, search])
+
+  useEffect(() => {
+    todosController
+      .findAll({ page })
+      .then(({ todos, pages }) => {
+        setTodos(todos)
+        setPages(pages)
+      })
+      .finally(() => setIsLoading(false))
+    return () => {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleLoadMorePages = () => {
     const nextPage = page + 1
@@ -45,15 +60,17 @@ export default function Home() {
   }
 
   const handleToggleDone = (id: string) => {
-    setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
-    todosController.toggleDone({ id }).catch(() => console.error('Failed to toggle done'))
+    todosController
+      .toggleDone({ id })
+      .then(() => setTodos((todos) => todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))))
+      .catch((error) => console.error('Failed to toggle done', error))
   }
 
   const handleDelete = (id: string) => {
     todosController
       .deleteById({ id })
       .then(() => setTodos((todos) => todos.filter((todo) => todo.id !== id)))
-      .catch(() => console.error('Failed to delete'))
+      .catch((error) => console.error('Failed to delete', error))
   }
 
   const handleSubmit = (event: FormEvent) => {
@@ -66,19 +83,8 @@ export default function Home() {
         setTodos((prev) => [todo as Todo, ...prev])
         setTodoContent('')
       })
+      .catch((error) => console.error('Failed to create', error))
   }
-
-  useEffect(() => {
-    todosController
-      .findAll({ page })
-      .then(({ todos, pages }) => {
-        setTodos(todos)
-        setPages(pages)
-      })
-      .finally(() => setIsLoading(false))
-    return () => {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
