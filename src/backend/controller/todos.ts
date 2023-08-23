@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { HttpNotFoundError } from '~/backend/infra/errors'
 import { todosRepository } from '~/backend/repository/todos'
+import { postSchema } from '~/schema/todo'
 
 type ToggleDoneParams = {
   id: string
@@ -11,24 +12,20 @@ type DeleteByIdParams = {
   id: string
 }
 
-const postSchema = z.object({
-  content: z.string(),
-})
-
 const findAll = async (request: Request) => {
   const { searchParams } = new URL(request.url)
-  const query = {
+  const params = {
     page: searchParams.get('page'),
     limit: searchParams.get('limit'),
   }
-  const page = Number(query.page)
-  const limit = Number(query.limit)
+  const page = Number(params.page)
+  const limit = Number(params.limit)
 
-  if (query.page && isNaN(page)) {
+  if (params.page && isNaN(page)) {
     return new Response(JSON.stringify({ error: { message: 'Page is not a number' } }), { status: 400 })
   }
 
-  if (query.limit && isNaN(limit)) {
+  if (params.limit && isNaN(limit)) {
     return new Response(JSON.stringify({ error: { message: 'Limit is not a number' } }), { status: 400 })
   }
 
@@ -45,19 +42,20 @@ const findAll = async (request: Request) => {
 }
 
 const createNew = async (request: Request) => {
-  const body = postSchema.safeParse(await request.json())
+  const parsed = postSchema.safeParse(await request.json())
 
-  if (!body.success) {
-    return new Response(JSON.stringify({ error: { message: 'Missing content', description: body.error.issues } }), {
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: { message: 'Missing content', description: parsed.error.issues } }), {
       status: 400,
     })
   }
 
-  const todo = await todosRepository.createNew({ content: body.data.content }).catch(() => {
+  try {
+    const todo = await todosRepository.createNew({ content: parsed.data.content })
+    return new Response(JSON.stringify(todo), { status: 201 })
+  } catch {
     return new Response(JSON.stringify({ error: { message: 'Failed to create todo' } }), { status: 400 })
-  })
-
-  return new Response(JSON.stringify(todo), { status: 201 })
+  }
 }
 
 const toggleDone = async (_request: Request, params: ToggleDoneParams) => {
