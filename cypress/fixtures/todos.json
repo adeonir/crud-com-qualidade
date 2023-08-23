@@ -1,0 +1,18 @@
+{
+  "total": 1,
+  "pages": 1,
+  "todos": [
+    {
+      "id": "a9d3a7d8-9e4b-4d6a-a2f1-1e2e5470a12d",
+      "date": "2023-05-07T13:53:21.779Z",
+      "content": "Walk with the dog",
+      "done": false
+    },
+    {
+      "id": "b4c7d9e0-f3a0-4e5d-8c2b-1e7e8d9f0a1b",
+      "date": "2023-05-07T13:53:21.779Z",
+      "content": "Finish coding project",
+      "done": false
+    }
+  ]
+}
