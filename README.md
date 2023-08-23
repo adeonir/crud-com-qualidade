@@ -17,12 +17,13 @@ Este é o projeto do curso [Criando um CRUD de Qualidade](https://crudcomqualida
 - [Lint-Staged](https://github.com/okonet/lint-staged)
 - [Husky](https://github.com/typicode/husky)
 
-## Improvements
+## Improvements to make
 
 - [ ] Edição do conteúdo de um todo
 - [ ] Validação para não criar um todo duplicado
 - [ ] Mensagens de alerta usando toast
 - [ ] Separar componentes para melhor organização
+- [ ] Substituir CSS-in-JS por Tailwind
 - [ ] Testes unitários dos componentes
 
 ---
