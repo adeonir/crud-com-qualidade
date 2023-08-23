@@ -138,7 +138,7 @@ export default function Home() {
                   <td>{todo.id.slice(0, 5)}</td>
                   <td>{todo.done ? <s>{todo.content}</s> : todo.content}</td>
                   <td align="right">
-                    <button data-type="delete" onClick={() => handleDelete(todo.id)}>
+                    <button data-type="delete" onClick={() => handleDelete(todo.id)} aria-label="Remover um item">
                       Apagar
                     </button>
                   </td>
