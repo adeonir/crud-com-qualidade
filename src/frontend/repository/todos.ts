@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { TodoSchema, type Todo } from '~/schema/todo'
 
 type FindAllParams = {
@@ -87,13 +86,13 @@ const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
   }
 
   const data = await response.json()
-  const todo = TodoSchema.safeParse(data)
+  const parsed = TodoSchema.safeParse(data)
 
-  if (!todo.success) {
+  if (!parsed.success) {
     throw new Error('Failed to create todo')
   }
 
-  return todo.data
+  return parsed.data
 }
 
 const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
@@ -105,17 +104,15 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
     throw new Error('Failed to update todo')
   }
 
-  const data = await response.json()
-  const schema = z.object({
-    todo: TodoSchema,
-  })
-  const todo = schema.safeParse(data)
+  const todo = await response.json()
+  const parsed = TodoSchema.safeParse(todo)
 
-  if (!todo.success) {
+  if (!parsed.success) {
+    console.error('parse', parsed.error)
     throw new Error('Failed to update todo')
   }
 
-  return todo.data.todo
+  return parsed.data
 }
 
 const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
