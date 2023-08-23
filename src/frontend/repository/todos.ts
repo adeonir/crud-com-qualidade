@@ -1,4 +1,4 @@
-import { TodoSchema, type Todo } from '~/schema/todo'
+import { todoSchema, type Todo } from '~/schema/todo'
 
 type FindAllParams = {
   page: number
@@ -86,7 +86,7 @@ const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
   }
 
   const data = await response.json()
-  const parsed = TodoSchema.safeParse(data)
+  const parsed = todoSchema.safeParse(data)
 
   if (!parsed.success) {
     throw new Error('Failed to create todo')
@@ -105,10 +105,9 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
   }
 
   const todo = await response.json()
-  const parsed = TodoSchema.safeParse(todo)
+  const parsed = todoSchema.safeParse(todo)
 
   if (!parsed.success) {
-    console.error('parse', parsed.error)
     throw new Error('Failed to update todo')
   }
 

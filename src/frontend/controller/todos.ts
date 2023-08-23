@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { todosRepository } from '~/frontend/repository/todos'
 import type { Todo } from '~/schema/todo'
 
@@ -8,8 +9,6 @@ type FindAllParams = {
 
 type CreateNewParams = {
   content: string
-  onSuccess?: (todo: Todo) => void
-  onError?: () => void
 }
 
 type ToggleDoneParams = {
@@ -31,6 +30,7 @@ const findAll = async ({ page }: FindAllParams) => {
 
 const createNew = async ({ content }: CreateNewParams) => {
   const parsed = z.string().nonempty().safeParse(content)
+
   if (!parsed.success) {
     return parsed.error
   }

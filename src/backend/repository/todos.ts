@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-import { TodoSchema, type Todo } from '~/schema/todo'
 import { HttpNotFoundError } from '~/backend/infra/errors'
 import { supabase } from '~/backend/infra/database'
+import { todoSchema, type Todo } from '~/schema/todo'
 
 type FindAllParams = {
   page?: number
@@ -38,7 +38,7 @@ const findOneById = async ({ id }: FindOneByIdParams): Promise<Todo> => {
     throw new Error('Failed to fetch data')
   }
 
-  const parsed = TodoSchema.parse(data)
+  const parsed = todoSchema.parse(data)
 
   if (!parsed) {
     throw new Error('Failed to fetch data')
@@ -64,7 +64,7 @@ const findAll = async ({ page, limit }: FindAllParams = {}): Promise<FindAllResp
     throw new Error('Failed to fetch data')
   }
 
-  const parsed = z.array(TodoSchema).safeParse(data)
+  const parsed = z.array(todoSchema).safeParse(data)
 
   if (!parsed.success) {
     throw parsed.error
@@ -84,7 +84,11 @@ const createNew = async ({ content }: CreateNewParams): Promise<Todo> => {
     throw new Error('Failed to create todo')
   }
 
-  const parsed = TodoSchema.parse(data)
+  const parsed = todoSchema.parse(data)
+
+  if (!parsed) {
+    throw new Error('Failed to create todo')
+  }
 
   return parsed
 }
@@ -97,7 +101,7 @@ const toggleDone = async ({ id }: ToggleDoneParams): Promise<Todo> => {
     throw new Error('Failed to update todo')
   }
 
-  const parsed = TodoSchema.parse(data)
+  const parsed = todoSchema.parse(data)
 
   if (!parsed) {
     throw new Error('Failed to update todo')
