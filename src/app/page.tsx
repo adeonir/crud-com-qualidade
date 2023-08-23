@@ -3,10 +3,10 @@
 import type { ChangeEvent, FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 
-import { GlobalStyles } from '~/styles/global-styles'
+import type { Todo } from '~/schema/todo'
 
 import { todosController } from '~/frontend/controller/todos'
-import type { Todo } from '~/schema/todo'
+import { GlobalStyles } from '~/styles/global-styles'
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg'
 

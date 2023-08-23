@@ -1,4 +1,6 @@
-import { todoSchema, type Todo } from '~/schema/todo'
+import type { Todo } from '~/schema/todo'
+
+import { todoSchema } from '~/schema/todo'
 
 type FindAllParams = {
   page: number

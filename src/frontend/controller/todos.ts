@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
-import { todosRepository } from '~/frontend/repository/todos'
 import type { Todo } from '~/schema/todo'
+
+import { todosRepository } from '~/frontend/repository/todos'
 
 type FindAllParams = {
   page: number

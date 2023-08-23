@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
-import { HttpNotFoundError } from '~/backend/infra/errors'
+import type { Todo } from '~/schema/todo'
+
 import { supabase } from '~/backend/infra/database'
-import { todoSchema, type Todo } from '~/schema/todo'
+import { HttpNotFoundError } from '~/backend/infra/errors'
+import { todoSchema } from '~/schema/todo'
 
 type FindAllParams = {
   page?: number
