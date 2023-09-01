@@ -4,7 +4,7 @@ import type { ChangeEvent, FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import GithubCorner from 'react-github-corner'
 
-import type { Todo } from '~/schema/todo'
+import type { Todo } from '~/frontend/schema/todo'
 
 import { todosController } from '~/frontend/controller/todos'
 import { GlobalStyles } from '~/styles/global-styles'
@@ -24,7 +24,7 @@ export default function Home() {
   const emptyTodosList = useMemo(() => filteredTodos.length === 0 && !isLoading, [isLoading, filteredTodos])
 
   useEffect(() => {
-    setFilteredTodos(todosController.filterByContent<Todo>({ todos, search }))
+    setFilteredTodos(todosController.filterByContent({ todos, search }))
   }, [todos, search])
 
   useEffect(() => {

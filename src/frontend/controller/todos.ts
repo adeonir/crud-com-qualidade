@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import type { Todo } from '~/schema/todo'
+import type { Todo } from '~/frontend/schema/todo'
 
 import { todosRepository } from '~/frontend/repository/todos'
 
@@ -20,9 +20,9 @@ type DeleteByIdParams = {
   id: string
 }
 
-type FilterParams<T> = {
-  todos: T[]
+type FilterParams = {
   search: string
+  todos: Todo[]
 }
 
 const findAll = async ({ page }: FindAllParams) => {
@@ -47,7 +47,7 @@ const deleteById = async ({ id }: DeleteByIdParams) => {
   return await todosRepository.deleteById({ id })
 }
 
-const filterByContent = <T extends { content: string }>({ todos, search }: FilterParams<T>): T[] => {
+const filterByContent = ({ search, todos }: FilterParams): Todo[] => {
   return todos.filter((todo) => todo.content.toLowerCase().includes(search.toLowerCase()))
 }
 

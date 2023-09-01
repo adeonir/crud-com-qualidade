@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { HttpNotFoundError } from '~/backend/infra/errors'
 import { todosRepository } from '~/backend/repository/todos'
-import { postSchema } from '~/schema/todo'
+import { postSchema } from '~/backend/schema/todo'
 
 type ToggleDoneParams = {
   id: string
