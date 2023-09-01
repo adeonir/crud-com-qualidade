@@ -1,55 +1,35 @@
 {
   "name": "crud",
-  "version": "1.0.0",
   "description": "Projeto do curso Criando um CRUD de Qualidade",
   "private": true,
-  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "crud:start": "ts-node --project tsconfig.json core/crud.ts",
-    "crud:dev": "nodemon --ext ts,tsx --exec 'pnpm crud:start'",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint '**/*.{ts,tsx}'",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "test": "start-server-and-test dev http://localhost:3000 cy:run",
-    "prepare": "is-ci || husky install"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "2.32.0",
-    "next": "13.4.19",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "ts-node": "10.9.1",
-    "typescript": "5.1.6",
-    "zod": "3.22.2"
+    "build": "turbo run build --filter main",
+    "dev": "turbo run dev --parallel --filter=!core",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "prepare": "is-ci || husky install",
+    "main": "pnpm --filter main"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "13.4.19",
-    "@types/node": "20.5.1",
-    "@types/react": "18.2.20",
-    "@typescript-eslint/eslint-plugin": "6.4.1",
-    "@typescript-eslint/parser": "6.4.1",
-    "cypress": "12.17.4",
-    "encoding": "0.1.13",
-    "eslint": "8.47.0",
-    "eslint-config-next": "13.4.19",
-    "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-chai-friendly": "0.7.2",
-    "eslint-plugin-cypress": "2.14.0",
-    "eslint-plugin-import": "2.28.1",
-    "eslint-plugin-no-only-tests": "3.1.0",
-    "eslint-plugin-prettier": "5.0.0",
-    "eslint-plugin-promise": "6.1.1",
-    "eslint-plugin-react": "7.33.2",
-    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint": "8.48.0",
+    "eslint-config-custom": "workspace:*",
     "husky": "8.0.3",
     "is-ci": "3.0.1",
     "lint-staged": "14.0.1",
-    "nodemon": "3.0.1",
-    "prettier": "3.0.2",
-    "react-github-corner": "2.5.0",
-    "start-server-and-test": "2.0.0"
-  }
+    "prettier": "3.0.3",
+    "tsconfig": "workspace:*",
+    "turbo": "latest"
+  },
+  "lint-staged": {
+    "apps/**/*.{js,ts,jsx,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "packageManager": "pnpm@8.7.0"
 }
