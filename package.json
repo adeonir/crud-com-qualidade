@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --filter main",
+    "build": "turbo run build",
     "dev": "turbo run dev --parallel --filter=!core",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",

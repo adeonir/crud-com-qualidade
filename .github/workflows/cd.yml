@@ -7,6 +7,9 @@ on:
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+  SUPABASE_SECRET: ${{ secrets.SUPABASE_SECRET }}
 
 jobs:
   deploy:
@@ -29,5 +32,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Pushing to production
-        run: pnpm dlx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build
+        run: pnpm --filter main build
