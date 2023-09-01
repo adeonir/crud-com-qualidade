@@ -1,0 +1,20 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ts-node --project tsconfig.json src/crud.ts",
+    "dev": "nodemon --ext ts,tsx --exec 'pnpm start'",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "ts-node": "10.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.5.7",
+    "eslint-config-custom": "workspace:*",
+    "nodemon": "3.0.1",
+    "tsconfig": "workspace:*",
+    "typescript": "5.2.2"
+  }
+}
