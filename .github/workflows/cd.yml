@@ -7,6 +7,9 @@ on:
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+  SUPABASE_SECRET: ${{ secrets.SUPABASE_SECRET }}
 
 jobs:
   deploy:
@@ -17,8 +20,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-      - name: Pushing to production
-        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+            node-version: 18
+            cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
