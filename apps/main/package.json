@@ -1,0 +1,39 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc",
+    "watch": "cypress open",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test dev http://localhost:3000 cy:run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.33.1",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-jsx": "5.1.2",
+    "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "13.4.19",
+    "@types/node": "20.5.7",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "cypress": "13.1.0",
+    "encoding": "0.1.13",
+    "eslint-config-custom": "workspace:*",
+    "eslint-plugin-chai-friendly": "0.7.2",
+    "eslint-plugin-cypress": "2.14.0",
+    "eslint-plugin-no-only-tests": "3.1.0",
+    "react-github-corner": "2.5.0",
+    "start-server-and-test": "2.0.0",
+    "tsconfig": "workspace:*",
+    "typescript": "5.2.2"
+  }
+}
