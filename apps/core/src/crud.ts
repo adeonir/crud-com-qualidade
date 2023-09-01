@@ -1,6 +1,6 @@
-import fs from 'fs'
+import fs from 'node:fs'
 
-const DB_PATH = './core/db'
+const DB_PATH = './src/db'
 
 type UUID = string
 

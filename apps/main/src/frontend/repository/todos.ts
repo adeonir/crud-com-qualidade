@@ -1,5 +1,4 @@
 import type { Todo } from '~/frontend/schema/todo'
-
 import { todoSchema } from '~/frontend/schema/todo'
 
 type FindAllParams = {
@@ -23,6 +22,43 @@ type ToggleDoneParams = {
 
 type DeleteByIdParams = {
   id: string
+}
+
+const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
+  if (
+    response !== null &&
+    typeof response === 'object' &&
+    'todos' in response &&
+    'total' in response &&
+    'pages' in response &&
+    Array.isArray(response.todos)
+  ) {
+    return {
+      total: Number(response.total),
+      pages: Number(response.pages),
+      todos: response.todos.map((todo: unknown) => {
+        if (todo === null && typeof todo !== 'object') {
+          throw new Error('Invalid response from api')
+        }
+
+        const { id, content, date, done } = todo as {
+          id: string
+          content: string
+          date: string
+          done: string
+        }
+
+        return {
+          id,
+          content,
+          date,
+          done: String(done).toLowerCase() === 'true',
+        }
+      }),
+    }
+  }
+
+  return { total: 0, pages: 1, todos: [] }
 }
 
 const findAll = async ({ page, limit }: FindAllParams): Promise<FindAllResponse> => {
@@ -89,47 +125,9 @@ const deleteById = async ({ id }: DeleteByIdParams): Promise<void> => {
   }
 }
 
-const parseResponse = (response: unknown): { total: number; pages: number; todos: Todo[] } => {
-  if (
-    response !== null &&
-    typeof response === 'object' &&
-    'todos' in response &&
-    'total' in response &&
-    'pages' in response &&
-    Array.isArray(response.todos)
-  ) {
-    return {
-      total: Number(response.total),
-      pages: Number(response.pages),
-      todos: response.todos.map((todo: unknown) => {
-        if (todo === null && typeof todo !== 'object') {
-          throw new Error('Invalid response from api')
-        }
-
-        const { id, content, date, done } = todo as {
-          id: string
-          content: string
-          date: string
-          done: string
-        }
-
-        return {
-          id,
-          content,
-          date,
-          done: String(done).toLowerCase() === 'true',
-        }
-      }),
-    }
-  }
-
-  return { total: 0, pages: 1, todos: [] }
-}
-
 export const todosRepository = {
   findAll,
   createNew,
   toggleDone,
   deleteById,
-  parseResponse,
 }

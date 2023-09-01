@@ -17,8 +17,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+            node-version: 18
+            cache: 'pnpm'
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Pushing to production
-        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm dlx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}

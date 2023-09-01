@@ -4,8 +4,16 @@
 
 Este é o projeto do curso [Criando um CRUD de Qualidade](https://crudcomqualidade.io/), criado pelo [DevSoutinho](https://twitter.com/omariosouto).
 
-## What is inside?
+### Apps and Packages
 
+- `core`: uma aplicação de CRUD simples usando File System para armazenar os dados
+- `main`: uma aplicação [Next.js](https://nextjs.org/)
+- `eslint-config-custom`: configurações do `eslint` (que inclui `eslint-config-next` e `eslint-config-prettier`)
+- `tsconfig`: configurações `tsconfig.json` usadas no monorepo
+
+## Build With
+
+- [TurboRepo](https://turbo.build/repo/)
 - [NextJS](https://nextjs.org/)
 - [React](https://reactjs.org/)
 - [TypeScript](https://typescriptlang.org/)
@@ -19,12 +27,13 @@ Este é o projeto do curso [Criando um CRUD de Qualidade](https://crudcomqualida
 
 ## Improvements to make
 
-- [ ] Edição do conteúdo de um todo
-- [ ] Validação para não criar um todo duplicado
-- [ ] Mensagens de alerta usando toast
-- [ ] Separar componentes para melhor organização
-- [ ] Substituir CSS-in-JS por Tailwind
+- [x] Migrar para monorepo
+- [ ] Criar um pacote de componentes
 - [ ] Testes unitários dos componentes
+- [ ] Adicionar documentação dos componentes
+- [ ] Edição do conteúdo de um item
+- [ ] Validação para não criar um item duplicado
+- [ ] Mensagens de alerta usando toast
 
 ---
 
