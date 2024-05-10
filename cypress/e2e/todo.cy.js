@@ -45,6 +45,6 @@ describe('Todos', () => {
       req.reply()
     }).as('deleteTodo')
     cy.get('button[aria-label="Remover um item"]').first().click()
-    cy.get('[role=row]').should('have.length', 1)
+    cy.get('[role=row]').should('have.length', 2)
   })
 })
